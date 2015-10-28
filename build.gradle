@@ -35,6 +35,8 @@ dependencies {
     compile("org.hibernate:hibernate-core:5.0.2.Final")
     compile("mysql:mysql-connector-java:5.1.37")
     compile("log4j:log4j:1.2.16")
+    compile("junit:junit:4.12")
+    compile("org.mockito:mockito-all:1.8.4")
     testCompile("junit:junit")
 }
 
