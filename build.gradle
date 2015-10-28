@@ -19,6 +19,19 @@ buildscript {
     }
 }
 
+<<<<<<< HEAD
+=======
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'eclipse'
+
+jar {
+    baseName = 'auction_backend'
+    version =  '0.1.0'
+}
+
+>>>>>>> 2a476d6... - dump updated
 repositories {
     mavenLocal()
     mavenCentral()
@@ -41,6 +54,7 @@ dependencies {
     compile("org.apache.camel:camel-spring-boot:2.15.0")
     compile("org.apache.activemq:activemq-camel:5.10.0")
     compile("org.hibernate:hibernate-core:5.0.2.Final")
+    compile("mysql:mysql-connector-java:5.1.37")
     testCompile("junit:junit")
 }
 
