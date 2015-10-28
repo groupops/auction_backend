@@ -1,6 +1,5 @@
 package com.epam.entity;
 
-<<<<<<< HEAD
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-=======
->>>>>>> 3ed869f87cf06dd940f582d85f52bfd2a77d8855
 @Entity
 @Table(name = "USERS")
 public class User {
