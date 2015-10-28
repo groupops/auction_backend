@@ -4,29 +4,28 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.epam.training.auction_backend.entity.Auction;
 
 public class AuctionController {
-
+	
 	public static final Logger logger = Logger.getLogger(AuctionController.class);
 	
 	public List<Auction> getActiveAuctions() {
-		Session session = SessionProvider.getSession();
-		List<Auction> auctions = session.createQuery("FROM Auction A WHERE A.IS_ACTIVE=true").list();
-		session.close();
-		return auctions;
+		return getAuctions(true);
 	}
 
 	public List<Auction> getArchivedAuctions() {
-		return null;
-
+		return getAuctions(false);
 	}
 
-	public Optional<Auction> getAuctionsAuctionById(long id) {
-		return null;
-
+	public Optional<Auction> getAuctionById(long id) {
+		Session session = SessionProvider.getSession();
+		Optional<Auction> auction = Optional.of(session.load(Auction.class, id));
+		session.close();
+		return auction;
 	}
 
 	public long addAuction(String title, String description, long sellerUserId) {
@@ -38,5 +37,14 @@ public class AuctionController {
 		session.close();
 		logger.info("Book " + auction.getTitle() + " is successfully added to the auction.");
 		return auction.getId();
+	}
+	
+	private List<Auction> getAuctions(boolean status) {
+		Session session = SessionProvider.getSession();
+		Query query = session.createQuery("FROM Auction A WHERE A.IS_ACTIVE = :status");
+		query.setParameter("status", status);
+		List<Auction> auctions = query.list();
+		session.close();
+		return auctions;
 	}
 }
