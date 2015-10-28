@@ -1,5 +1,6 @@
 package com.epam.training.auction_backend.controllers;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -9,7 +10,11 @@ import com.epam.training.auction_backend.entity.User;
 
 public class SessionProvider {
 
-	public static SessionFactory getSessionFactory() {
+	public static Session getSession() {
+		return getSessionFactory().openSession();
+	}
+	
+	private static SessionFactory getSessionFactory() {
 		Configuration configuration = new Configuration().configure();
 		configuration.addAnnotatedClass(User.class);
 		configuration.addAnnotatedClass(Auction.class);
