@@ -15,21 +15,20 @@ import java.util.Map;
 public class QueueHandler {
 
   @Autowired
-  private SimpMessageSendingOperations msgTemplate;
+  private SimpMessageSendingOperations messsageTemplate;
 
-  private static Map<String, Object> defaultHeaders;
+  private static Map<String, Object> headers;
 
   static {
-    defaultHeaders = new HashMap<String, Object>();
-    defaultHeaders
-        .put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
+    headers = new HashMap<String, Object>();
+    headers.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
   }
 
   public void handle(Exchange exchange) throws InterruptedException {
     org.apache.camel.Message camelMessage = exchange.getIn();
     Message message = camelMessage.getBody(Message.class);
     // send the message specifically to the destination user by using STOMP's user-directed messaging
-    msgTemplate.convertAndSendToUser(message.to, "/topic/messages", message,
-        defaultHeaders);
+    messsageTemplate.convertAndSendToUser(message.getReceiver(), "/topic/messages",
+        message, headers);
   }
 }

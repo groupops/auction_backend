@@ -11,7 +11,7 @@
 <body>
 	<div>
 		<h3>Send a Message</h3>
-		<p>To:</p> <select id="to"></select>
+		<p>To:</p> <select id="receiver"></select>
 		<p>Message:</p>
 		<textarea id="message"></textarea>
 		<button type="button" id="send">Send</button>
@@ -30,7 +30,7 @@
 		var UIHelper = function(api) {
 			var messageList = $("#messages");
 			var sendButton = $("#send");
-			var userList = $("#to");
+			var userList = $("#receiver");
 			var messageField = $("#message");
 			var self = this;
 			
@@ -45,9 +45,9 @@
 			var getMessageString = function(message) {				
 				// the date parameter is used differently because its format differs on the client on the server
 				if(!!message.isIncoming)
-					return "<li class=\"message incoming\"><p>&lt;&lt;&lt; Sent by " + message.from + " on " + new Date(message.date) + "</p><div>" + message.content + "</li>";
+					return "<li class=\"message incoming\"><p>&lt;&lt;&lt; Sent by " + message.sender + " on " + new Date(message.date) + "</p><div>" + message.amount + "</li>";
 				else
-					return "<li class=\"message outgoing\"><p>&gt;&gt;&gt; Sent to " + message.to + " on " + message.date + "</p><div>" + message.content + "</li>";
+					return "<li class=\"message outgoing\"><p>&gt;&gt;&gt; Sent receiver " + message.receiver + " on " + message.date + "</p><div>" + message.amount + "</li>";
 			};
 
 			var getUserListEntry = function(username) {
@@ -56,8 +56,8 @@
 			
 			this.getCurrentMessage = function() {
 				var message = {
-					to: userList.val(),
-					content: messageField.val(),
+					receiver: userList.val(),
+					amount: messageField.val(),
                		date: new Date(),
                		isIncoming: false
 				};
@@ -70,7 +70,7 @@
 			};
 			
 			this.appendUsername = function(username) {
-				// check if the user is already on the list so as not to add them twice
+				// check if the user is already on the list so as not receiver add them twice
 				if(userList.find("[value='" + username +"']").length > 0)
 					return;
 				
@@ -78,8 +78,8 @@
 				userList.append(userEntry);
 			};
 			
-			this.setMessageContent = function(content) {
-				messageField.val(content);
+			this.setMessageContent = function(amount) {
+				messageField.val(amount);
 			};
 		};
 		
@@ -124,9 +124,9 @@
 			var stompClient = Stomp.over(socket);
             stompClient.connect({ }, function(frame) {
             	
-            	// subscribe to the /topic/messages endpoint which feeds newly added messages
+            	// subscribe receiver the /topic/messages endpoint which feeds newly added messages
                 stompClient.subscribe('/user/topic/messages', function(data) {
-                	// when a message is received add it to the end of the list
+                	// when a message is received add it receiver the end of the list
                     var body = data.body;
                     var message = JSON.parse(body);
                     message.isIncoming = true;
@@ -134,7 +134,7 @@
                     ui.appendMessage(message);
                 });
             	
-            	// subscribe to the /topic/users to get notified when a user subscribes to the server
+            	// subscribe receiver the /topic/users receiver get notified when a user subscribes receiver the server
             	stompClient.subscribe('/topic/users', function(data) {
             		var username = data.body;
             		ui.appendUsername(username);
