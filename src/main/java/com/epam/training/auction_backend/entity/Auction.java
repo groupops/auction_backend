@@ -1,4 +1,4 @@
-package com.epam.entity;
+package com.epam.training.auction_backend.entity;
 
 import java.time.LocalDateTime;
 
