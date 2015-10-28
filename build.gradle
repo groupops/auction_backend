@@ -55,6 +55,7 @@ dependencies {
     compile("org.apache.activemq:activemq-camel:5.10.0")
     compile("org.hibernate:hibernate-core:5.0.2.Final")
     compile("mysql:mysql-connector-java:5.1.37")
+    compile("log4j:log4j:1.2.16")
     testCompile("junit:junit")
 }
 
