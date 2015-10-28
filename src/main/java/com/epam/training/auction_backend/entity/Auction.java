@@ -16,7 +16,7 @@ public class Auction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)
-	private int id;
+	private long id;
 	
 	@Column(name = "TITLE")
 	private String title;
@@ -25,10 +25,10 @@ public class Auction {
 	private String description;
 	
 	@Column(name = "SELLER_USER_ID")
-	private int sellerUserId;
+	private long sellerUserId;
 	
 	@Column(name = "WINNER_USER_ID")
-	private int winnerUserId;
+	private long winnerUserId;
 	
 	@Column(name = "FINAL_PRICE")
 	private double finalPrice;
@@ -45,24 +45,17 @@ public class Auction {
 	public Auction() {
 	}
 	
-	public Auction(int id, String title, String description, int sellerUserId, int winnerUserId, double finalPrice,
-			boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		this.id = id;
+	public Auction(String title, String description, long sellerUserId) {
 		this.title = title;
 		this.description = description;
 		this.sellerUserId = sellerUserId;
-		this.winnerUserId = winnerUserId;
-		this.finalPrice = finalPrice;
-		this.isActive = isActive;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -82,19 +75,19 @@ public class Auction {
 		this.description = description;
 	}
 
-	public int getSellerUserId() {
+	public long getSellerUserId() {
 		return sellerUserId;
 	}
 
-	public void setSellerUserId(int sellerUserId) {
+	public void setSellerUserId(long sellerUserId) {
 		this.sellerUserId = sellerUserId;
 	}
 
-	public int getWinnerUserId() {
+	public long getWinnerUserId() {
 		return winnerUserId;
 	}
 
-	public void setWinnerUserId(int winnerUserId) {
+	public void setWinnerUserId(long winnerUserId) {
 		this.winnerUserId = winnerUserId;
 	}
 
