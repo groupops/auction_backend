@@ -21,23 +21,13 @@ import org.apache.camel.util.IOHelper;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * Client that uses Camel Spring Remoting for very easy integration with the server.
- * <p/>
- * Requires that the JMS broker is running, as well as CamelServer
- */
 public final class CamelClientRemoting {
+
     private CamelClientRemoting() {
-        //Helper class
     }
 
     public static void main(final String[] args) throws InterruptedException {
-        System.out.println("Notice this client requires that the CamelServer is already running!");
-
         AbstractApplicationContext context = new ClassPathXmlApplicationContext("camel-client-remoting.xml");
-        // just get the proxy to the service and we as the client can use the "proxy" as it was
-        // a local object we are invoking. Camel will under the covers do the remote communication
-        // to the remote ActiveMQ server and fetch the response.
         Multiplier multiplier = context.getBean("multiplierProxy", Multiplier.class);
 
         System.out.println("Invoking the multiply with 33");

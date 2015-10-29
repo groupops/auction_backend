@@ -33,10 +33,10 @@ dependencies {
       "org.apache.camel:camel-core:2.16.0",
       "org.apache.camel:camel-jms:2.16.0",
       "org.apache.camel:camel-spring:2.16.0",
-      "org.apache.camel:camel-spring-boot:2.15.0",
+      "org.apache.camel:camel-spring-boot:2.16.0",
       "org.apache.activemq:activemq-camel:5.12.1",
       "org.apache.activemq:activemq-pool:5.12.1",
-      "log4j:log4j:1.2.17")
+	  "log4j:log4j:1.2.17")
   testCompile("org.apache.camel:camel-test-spring:2.16.0")
 }
 
