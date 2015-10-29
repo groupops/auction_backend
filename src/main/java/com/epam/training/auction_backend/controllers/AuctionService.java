@@ -47,11 +47,11 @@ public class AuctionService {
 		return id;
 	}
 	
-	private List<Auction> getAuctions(boolean status) {
+	private List<Auction> getAuctions(boolean isActive) {
 		List<Auction> auctions = new ArrayList<>();
 		try(Session session = SessionProvider.getSession()) {
-			Query query = session.createQuery("FROM Auction A WHERE A.IS_ACTIVE = :status");
-			query.setParameter("status", status);
+			Query query = session.createQuery("FROM Auction A WHERE A.IS_ACTIVE = :isActive");
+			query.setParameter("isActive", isActive);
 			auctions = query.list();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
