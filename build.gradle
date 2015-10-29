@@ -23,20 +23,16 @@ repositories {
 }
 
 dependencies {
-  compile("org.springframework.boot:spring-boot-starter-web",
-      "org.springframework.boot:spring-boot-starter-websocket",
-      "org.springframework:spring-messaging",
+  compile("org.springframework:spring-messaging",
       "org.springframework:spring-jms",
-      "org.springframework.security:spring-security-web",
-      "org.springframework.security:spring-security-config",
       "org.apache.xbean:xbean-spring:4.4",
       "org.apache.camel:camel-core:2.16.0",
       "org.apache.camel:camel-jms:2.16.0",
       "org.apache.camel:camel-spring:2.16.0",
-      "org.apache.camel:camel-spring-boot:2.16.0",
       "org.apache.activemq:activemq-camel:5.12.1",
       "org.apache.activemq:activemq-pool:5.12.1",
-	  "log4j:log4j:1.2.17")
+      "org.slf4j:slf4j-log4j12:1.7.12",
+      "log4j:log4j:1.2.17")
   testCompile("org.apache.camel:camel-test-spring:2.16.0")
 }
 
