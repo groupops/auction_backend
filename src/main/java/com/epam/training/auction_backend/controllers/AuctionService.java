@@ -9,9 +9,9 @@ import org.hibernate.Session;
 
 import com.epam.training.auction_backend.entity.Auction;
 
-public class AuctionController {
+public class AuctionService {
 	
-	public static final Logger logger = Logger.getLogger(AuctionController.class);
+	public static final Logger logger = Logger.getLogger(AuctionService.class);
 	
 	public List<Auction> getActiveAuctions() {
 		return getAuctions(true);
