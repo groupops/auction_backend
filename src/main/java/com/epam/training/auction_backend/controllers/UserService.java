@@ -30,7 +30,7 @@ public class UserService {
 	public Optional<User> getUser(String userName, String password) {
 		Optional<User> user = Optional.empty();
 		try(Session session = SessionProvider.getSession()) {
-			Query query = session.createQuery("FROM User U WHERE U.NAME = :userName and U.PASSWORD = :password");
+			Query query = session.createQuery("FROM User U WHERE U.USERNAME = :userName and U.PASSWORD = :password");
 			query.setParameter("userName", userName);
 			query.setParameter("password", password);
 			user = Optional.of((User) query.uniqueResult());
