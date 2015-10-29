@@ -13,11 +13,13 @@ public class SessionProvider {
 	public static Session getSession() {
 		return getSessionFactory().openSession();
 	}
-	
+
 	private static SessionFactory getSessionFactory() {
 		Configuration configuration = new Configuration().configure();
+
 		configuration.addAnnotatedClass(User.class);
 		configuration.addAnnotatedClass(Auction.class);
+
 		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties());
 		SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
