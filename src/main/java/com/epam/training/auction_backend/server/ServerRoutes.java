@@ -16,9 +16,9 @@
  */
 package com.epam.training.auction_backend.server;
 
-import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.spring.boot.FatJarRouter;
 
-public class ServerRoutes extends RouteBuilder {
+public class ServerRoutes extends FatJarRouter {
 
   @Override
   public void configure() throws Exception {
