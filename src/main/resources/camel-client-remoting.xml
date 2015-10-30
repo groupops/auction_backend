@@ -32,10 +32,20 @@
   <camel:camelContext id="camel-client">
     <camel:template id="camelTemplate"/>
 
+    <!-- <camel:proxy
+        id="auctionsServiceImplProxy"
+        serviceInterface="com.epam.training.auction.common.AuctionsService"
+        serviceUrl="jms:queue:authentication"/> -->
+
     <camel:proxy
-        id="userServiceImplProxy"
-        serviceInterface="com.epam.training.auction_backend.server.UserService"
-        serviceUrl="jms:queue:authentication"/>
+        id="usersServiceImplProxy"
+        serviceInterface="com.epam.training.auction.common.UsersService"
+        serviceUrl="jms:queue:users"/>
+
+    <!--<camel:proxy
+        id="biddingServiceImplProxy"
+        serviceInterface="com.epam.training.auction.common.BiddingService"
+        serviceUrl="jms:queue:authentication"/>  -->
   </camel:camelContext>
 
   <bean id="jmsConnectionFactory"

@@ -16,8 +16,29 @@
  */
 package com.epam.training.auction_backend.server;
 
-public interface UserService {
+import com.epam.training.auction.common.UserTransferObject;
+import com.epam.training.auction.common.UsersService;
+import org.springframework.stereotype.Service;
 
-  void login(String username);
+import java.util.Optional;
+
+@Service(value = "usersServiceImpl")
+public class UsersServiceImpl implements UsersService {
+
+  @Override
+  public void addUser(UserTransferObject userTransferObject) {
+    System.out.println("aaaaaa");
+
+  }
+
+  @Override
+  public Optional<UserTransferObject> getUserByName(String s) {
+    return null;
+  }
+
+  @Override
+  public Optional<UserTransferObject> getUserById(long l) {
+    return null;
+  }
 
 }

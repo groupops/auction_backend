@@ -16,7 +16,8 @@
  */
 package com.epam.training.auction_backend.client;
 
-import com.epam.training.auction_backend.server.UserService;
+import com.epam.training.auction.common.UserTransferObject;
+import com.epam.training.auction.common.UsersService;
 import org.apache.camel.util.IOHelper;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -27,13 +28,20 @@ public final class UIClient {
   }
 
   public static void main(final String[] args) throws InterruptedException {
+    addUser();
+  }
+
+  public static void addUser(){
     AbstractApplicationContext context =
         new ClassPathXmlApplicationContext("camel-client-remoting.xml");
-    UserService
-        userService = context.getBean("userServiceImplProxy", UserService.class);
+    UsersService
+        usersService =
+        context.getBean("usersServiceImplProxy", UsersService.class);
 
     System.out.println("Invoking the logging");
-    userService.login("user");
+    UserTransferObject userTransferObject =
+        new UserTransferObject("user", "pass");
+    usersService.addUser(userTransferObject);
     System.out.println("User is logged");
 
     IOHelper.close(context);
