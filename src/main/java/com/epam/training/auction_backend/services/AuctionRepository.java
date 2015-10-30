@@ -13,5 +13,5 @@ import com.epam.training.auction_backend.entity.Auction;
 public interface AuctionRepository extends CrudRepository<Auction, Long> {
 	public Optional<AuctionTransferObject> findOne(long id);
 	public Auction save(Auction auction);
-	public List<AuctionTransferObject> findAllByIsActive(boolean isActive);
+	public List<AuctionTransferObject> findByIsActive(boolean isActive);
 }
