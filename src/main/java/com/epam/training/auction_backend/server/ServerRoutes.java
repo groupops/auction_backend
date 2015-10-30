@@ -22,9 +22,9 @@ public class ServerRoutes extends RouteBuilder {
 
   @Override
   public void configure() throws Exception {
-//    from("jms:queue:auctions").to("auctionsServiceImpl");
+    from("jms:queue:auctions").to("auctionsServiceImpl");
     from("jms:queue:users").to("usersServiceImpl");
-//    from("jms:queue:bidding").to("biddingServiceImpl");
+    from("jms:queue:bidding").to("biddingServiceImpl");
   }
 
 }

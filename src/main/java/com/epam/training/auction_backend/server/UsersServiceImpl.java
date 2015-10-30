@@ -27,7 +27,6 @@ public class UsersServiceImpl implements UsersService {
 
   @Override
   public void addUser(UserTransferObject userTransferObject) {
-    System.out.println("aaaaaa");
 
   }
 
@@ -40,5 +39,4 @@ public class UsersServiceImpl implements UsersService {
   public Optional<UserTransferObject> getUserById(long l) {
     return null;
   }
-
 }
