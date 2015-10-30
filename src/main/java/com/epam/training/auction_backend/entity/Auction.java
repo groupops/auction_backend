@@ -7,11 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "AUCTIONS")
-public class Auction {
+public final class Auction {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +26,15 @@ public class Auction {
 	@Column(name = "DESCRIPTION")
 	private String description;
 	
+	@ManyToOne
+	@JoinColumn(name = "ID")
 	@Column(name = "SELLER_USER_ID")
-	private long sellerUserId;
+	private User sellerUser;
 	
+	@ManyToOne
+	@JoinColumn(name = "ID")
 	@Column(name = "WINNER_USER_ID")
-	private long winnerUserId;
+	private User winnerUser;
 	
 	@Column(name = "FINAL_PRICE")
 	private double finalPrice;
@@ -42,13 +48,10 @@ public class Auction {
 	@Column(name = "UPDATED_AT")
 	private LocalDateTime updatedAt;
 
-	public Auction() {
-	}
-	
-	public Auction(String title, String description, long sellerUserId) {
+	public Auction(String title, String description, User sellerUser) {
 		this.title = title;
 		this.description = description;
-		this.sellerUserId = sellerUserId;
+		this.sellerUser = sellerUser;
 	}
 
 	public long getId() {
@@ -75,20 +78,20 @@ public class Auction {
 		this.description = description;
 	}
 
-	public long getSellerUserId() {
-		return sellerUserId;
+	public User getSellerUser() {
+		return sellerUser;
 	}
 
-	public void setSellerUserId(long sellerUserId) {
-		this.sellerUserId = sellerUserId;
+	public void setSellerUser(User sellerUser) {
+		this.sellerUser = sellerUser;
 	}
 
-	public long getWinnerUserId() {
-		return winnerUserId;
+	public User getWinnerUser() {
+		return winnerUser;
 	}
 
-	public void setWinnerUserId(long winnerUserId) {
-		this.winnerUserId = winnerUserId;
+	public void setWinnerUser(User winnerUser) {
+		this.winnerUser = winnerUser;
 	}
 
 	public double getFinalPrice() {
@@ -125,8 +128,8 @@ public class Auction {
 
 	@Override
 	public String toString() {
-		return "Auction [id=" + id + ", title=" + title + ", description=" + description + ", sellerUserId="
-				+ sellerUserId + ", winnerUserId=" + winnerUserId + ", finalPrice=" + finalPrice + ", isActive="
-				+ isActive + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+		return "Auction [id=" + id + ", title=" + title + ", description=" + description + ", sellerUser=" + sellerUser
+				+ ", winnerUser=" + winnerUser + ", finalPrice=" + finalPrice + ", isActive=" + isActive
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 }
