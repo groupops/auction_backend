@@ -5,6 +5,7 @@ apply plugin: 'org.sonarqube'
 apply plugin: "info.solidsoft.pitest"
 apply plugin: 'jacoco'
 apply plugin: 'eclipse'
+apply plugin: 'eclipse'
 
 buildscript {
     repositories {
@@ -18,6 +19,11 @@ buildscript {
                 "org.sonarqube.gradle:gradle-sonarqube-plugin:1.0",
                 "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.6")
     }
+}
+
+jar {
+    baseName = 'auction_backend'
+    version =  '0.1.0'
 }
 
 repositories {
