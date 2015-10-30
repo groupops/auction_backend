@@ -19,11 +19,11 @@ public final class AuctionService implements AuctionsService {
 	private AuctionRepository repository;
 	
 	public List<AuctionTransferObject> getActiveAuctions() {
-		return repository.findAllByIsActive(true);
+		return repository.findByIsActive(true);
 	}
 
 	public List<AuctionTransferObject> getArchivedAuctions() {
-		return repository.findAllByIsActive(false);
+		return repository.findByIsActive(false);
 	}
 
 	public void addAuction(AuctionTransferObject auctionTransferObject) {
