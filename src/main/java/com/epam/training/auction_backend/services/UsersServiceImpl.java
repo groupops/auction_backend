@@ -9,9 +9,9 @@ import com.epam.training.auction.common.UserTransferObject;
 import com.epam.training.auction.common.UsersService;
 import com.epam.training.auction_backend.entity.User;
 
-public final class UserService implements UsersService {
+public final class UsersServiceImpl implements UsersService {
 
-	private static final Logger logger = Logger.getLogger(UserService.class);
+	private static final Logger logger = Logger.getLogger(UsersServiceImpl.class);
 	
 	@Autowired
 	private UserRepository repository;
