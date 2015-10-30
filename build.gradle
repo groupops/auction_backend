@@ -19,8 +19,6 @@ buildscript {
     }
 }
 
-<<<<<<< HEAD
-=======
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
@@ -31,7 +29,6 @@ jar {
     version =  '0.1.0'
 }
 
->>>>>>> 2a476d6... - dump updated
 repositories {
     mavenLocal()
     mavenCentral()
