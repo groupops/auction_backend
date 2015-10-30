@@ -4,6 +4,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'org.sonarqube'
 apply plugin: "info.solidsoft.pitest"
 apply plugin: 'jacoco'
+apply plugin: 'eclipse'
 
 buildscript {
     repositories {
@@ -19,19 +20,6 @@ buildscript {
     }
 }
 
-<<<<<<< HEAD
-=======
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'spring-boot'
-apply plugin: 'eclipse'
-
-jar {
-    baseName = 'auction_backend'
-    version =  '0.1.0'
-}
-
->>>>>>> 2a476d6... - dump updated
 repositories {
     mavenLocal()
     mavenCentral()
