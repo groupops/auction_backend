@@ -4,11 +4,13 @@ import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.epam.training.auction.common.UserTransferObject;
 import com.epam.training.auction.common.UsersService;
 import com.epam.training.auction_backend.entity.User;
 
+@Service(value = "usersServiceImpl")
 public final class UsersServiceImpl implements UsersService {
 
 	private static final Logger logger = Logger.getLogger(UsersServiceImpl.class);
