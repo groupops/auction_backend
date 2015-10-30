@@ -11,9 +11,9 @@ import com.epam.training.auction.common.AuctionsService;
 import com.epam.training.auction_backend.entity.Auction;
 import com.epam.training.auction_backend.entity.User;
 
-public final class AuctionService implements AuctionsService {
+public final class AuctionsServiceImpl implements AuctionsService {
 	
-	private static final Logger logger = Logger.getLogger(AuctionService.class);
+	private static final Logger logger = Logger.getLogger(AuctionsServiceImpl.class);
 	
 	@Autowired
 	private AuctionRepository repository;
