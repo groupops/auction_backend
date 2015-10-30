@@ -37,6 +37,8 @@ dependencies {
     compile("log4j:log4j:1.2.16")
     compile("junit:junit:4.12")
     compile("org.mockito:mockito-all:1.8.4")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile('com.epam.training.auction:auction_common:1.0')
     testCompile("junit:junit")
 }
 
