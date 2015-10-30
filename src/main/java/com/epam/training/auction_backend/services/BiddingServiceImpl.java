@@ -1,4 +1,4 @@
-package com.epam.training.auction_backend.server;
+package com.epam.training.auction_backend.services;
 
 import com.epam.training.auction.common.BiddingService;
 import com.epam.training.auction.common.UserBid;
