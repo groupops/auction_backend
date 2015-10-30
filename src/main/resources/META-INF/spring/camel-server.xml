@@ -27,12 +27,13 @@
          http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
          http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
 
-  <!-- let Spring do its IoC stuff in this package -->
-  <context:component-scan base-package="com.epam.training.auction_backend.server"/>
+  <context:component-scan
+      base-package="com.epam.training.auction_backend.server"/>
 
   <!-- spring property placeholder, ignore resource not found as the file resource is for unit testing -->
-  <context:property-placeholder location="classpath:camel.properties,file:target/custom.properties"
-                                ignore-resource-not-found="true"/>
+  <context:property-placeholder
+      location="classpath:camel.properties,file:target/custom.properties"
+      ignore-resource-not-found="true"/>
 
   <!-- declare a camel context that scans for classes that is RouteBuilder
        in the package com.epam.training.auction_backend.server -->

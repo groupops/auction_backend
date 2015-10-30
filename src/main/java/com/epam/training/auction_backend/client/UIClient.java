@@ -14,10 +14,29 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.epam.training.auction_backend.server;
+package com.epam.training.auction_backend.client;
 
-public interface Multiplier {
+import com.epam.training.auction_backend.server.UserService;
+import org.apache.camel.util.IOHelper;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-  int multiply(int originalNumber);
+public final class UIClient {
+
+  private UIClient() {
+  }
+
+  public static void main(final String[] args) throws InterruptedException {
+    AbstractApplicationContext context =
+        new ClassPathXmlApplicationContext("camel-client-remoting.xml");
+    UserService
+        userService = context.getBean("userServiceImplProxy", UserService.class);
+
+    System.out.println("Invoking the logging");
+    userService.login("user");
+    System.out.println("User is logged");
+
+    IOHelper.close(context);
+  }
 
 }

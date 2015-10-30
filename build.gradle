@@ -31,6 +31,7 @@ dependencies {
       "org.apache.camel:camel-spring:2.16.0",
       "org.apache.activemq:activemq-camel:5.12.1",
       "org.apache.activemq:activemq-pool:5.12.1",
+      "com.epam.training.auction:auction_common:1.0",
       "org.slf4j:slf4j-log4j12:1.7.12",
       "log4j:log4j:1.2.17")
   testCompile("org.apache.camel:camel-test-spring:2.16.0")

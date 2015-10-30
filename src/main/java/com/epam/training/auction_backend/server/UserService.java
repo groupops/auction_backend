@@ -16,13 +16,8 @@
  */
 package com.epam.training.auction_backend.server;
 
-import org.springframework.stereotype.Service;
+public interface UserService {
 
-@Service(value = "multiplier")
-public class Treble implements Multiplier {
-
-  public int multiply(final int originalNumber) {
-    return originalNumber * 3;
-  }
+  void login(String username);
 
 }

@@ -16,13 +16,13 @@
  */
 package com.epam.training.auction_backend.server;
 
-import org.apache.camel.builder.RouteBuilder;
+import org.springframework.stereotype.Service;
 
-public class ServerRoutes extends RouteBuilder {
+@Service(value = "userServiceImpl")
+public class UserServiceImpl implements UserService {
 
-  @Override
-  public void configure() throws Exception {
-    from("jms:queue:authentication").to("userServiceImpl");
+  public void login(final String username) {
+    // logging logic should be here
   }
 
 }

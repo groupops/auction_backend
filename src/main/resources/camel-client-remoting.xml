@@ -25,30 +25,29 @@
          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
          http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-  <!-- spring property placeholder, ignore resource not found as the file resource is for unit testing -->
   <context:property-placeholder
       location="classpath:camel.properties,file:target/custom.properties"
       ignore-resource-not-found="true"/>
 
-  <camel:camelContext id="camel-client-2">
+  <camel:camelContext id="camel-client">
     <camel:template id="camelTemplate"/>
-    <!-- Camel proxy for a given service, in this case the JMS queue -->
+
     <camel:proxy
-        id="multiplierProxy"
-        serviceInterface="com.epam.training.auction_backend.server.Multiplier"
-        serviceUrl="jms:queue:numbers"/>
+        id="userServiceImplProxy"
+        serviceInterface="com.epam.training.auction_backend.server.UserService"
+        serviceUrl="jms:queue:authentication"/>
   </camel:camelContext>
 
-  <!-- Camel JMSProducer to be able to send messages to a remote Active MQ server -->
   <bean id="jmsConnectionFactory"
         class="org.apache.activemq.ActiveMQConnectionFactory">
-    <property name="brokerURL" value="tcp://localhost:61616" />
+    <property name="brokerURL" value="tcp://localhost:${tcp.port}"/>
   </bean>
 
   <bean id="pooledConnectionFactory"
-        class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start" destroy-method="stop">
-    <property name="maxConnections" value="8" />
-    <property name="connectionFactory" ref="jmsConnectionFactory" />
+        class="org.apache.activemq.pool.PooledConnectionFactory"
+        init-method="start" destroy-method="stop">
+    <property name="maxConnections" value="8"/>
+    <property name="connectionFactory" ref="jmsConnectionFactory"/>
   </bean>
 
   <bean id="jmsConfig"
@@ -61,8 +60,7 @@
         class="org.apache.activemq.camel.component.ActiveMQComponent">
     <property name="configuration" ref="jmsConfig"/>
     <property name="transacted" value="true"/>
-    <property name="cacheLevelName" value="CACHE_CONSUMER" />
-
+    <property name="cacheLevelName" value="CACHE_CONSUMER"/>
   </bean>
 
 </beans>
