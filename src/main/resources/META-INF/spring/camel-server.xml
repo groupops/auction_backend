@@ -50,7 +50,7 @@
       <!-- expose a VM transport for in-JVM transport between AMQ and Camel on the server side -->
       <broker:transportConnector name="vm" uri="vm://myBroker"/>
       <!-- expose a TCP transport for clients to use -->
-      <broker:transportConnector name="tcp" uri="tcp://localhost:${tcp.port}"/>
+      <broker:transportConnector name="tcp" uri="tcp://localhost:61616"/>
     </broker:transportConnectors>
   </broker:broker>
 
