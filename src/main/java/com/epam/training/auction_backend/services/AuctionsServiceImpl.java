@@ -12,31 +12,35 @@ import com.epam.training.auction.common.AuctionTransferObject;
 import com.epam.training.auction.common.AuctionsService;
 import com.epam.training.auction_backend.entity.Auction;
 import com.epam.training.auction_backend.entity.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class AuctionsServiceImpl implements AuctionsService {
-
     private static final Logger logger = Logger.getLogger(AuctionsServiceImpl.class);
+    private AuctionRepository auctionRepository;
 
     @Autowired
-    private AuctionRepository repository;
+    public AuctionsServiceImpl(AuctionRepository auctionRepository) {
+        this.auctionRepository = auctionRepository;
+    }
 
     public List<AuctionTransferObject> getActiveAuctions() {
-        return Collections.emptyList(); //TODO: repository.findByActive(true);
+        return Collections.emptyList(); //TODO: auctionRepository.findByActive(true);
     }
 
     public List<AuctionTransferObject> getArchivedAuctions() {
-        return Collections.emptyList(); //TODO: repository.findByActive(false);
+        return Collections.emptyList(); //TODO: auctionRepository.findByActive(false);
     }
 
     public void addAuction(AuctionTransferObject auctionTransferObject) {
         User seller = new User(auctionTransferObject.getSeller().getUsername(), auctionTransferObject.getSeller().getPassword());
         Auction auction = new Auction(auctionTransferObject.getTitle(), auctionTransferObject.getDescription(), seller);
-        repository.save(auction);
+        auctionRepository.save(auction);
         logger.info("Book " + auction.getTitle() + " is successfully added to the auction.");
     }
 
     public Optional<AuctionTransferObject> getAuctionById(long id) {
-        Auction auction = repository.findOne(id);
+        Auction auction = auctionRepository.findOne(id);
         Optional<AuctionTransferObject> auctionTransferObject;
         if (auction == null) {
             auctionTransferObject = Optional.empty();

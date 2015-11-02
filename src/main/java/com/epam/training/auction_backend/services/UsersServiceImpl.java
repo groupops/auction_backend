@@ -12,11 +12,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public final class UsersServiceImpl implements UsersService {
-
     private static final Logger logger = Logger.getLogger(UsersServiceImpl.class);
+    private UserRepository repository;
 
     @Autowired
-    private UserRepository repository;
+    public UsersServiceImpl(UserRepository repository) {
+        this.repository = repository;
+    }
 
     public void setRepository(UserRepository repository) {
         this.repository = repository;

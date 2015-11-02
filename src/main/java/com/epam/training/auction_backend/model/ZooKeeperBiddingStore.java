@@ -34,8 +34,12 @@ public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
     private static final int ZOO_KEEPER_SESSION_TTL = 2 * 60 * 1000;
     private static final String AUCTION_BIDS_PATH = "/auction/%d/bid";
     private ZooKeeper zooKeeper;
-    @Autowired
     private UsersService usersService;
+
+    @Autowired
+    public ZooKeeperBiddingStore(UsersService usersService) {
+        this.usersService = usersService;
+    }
 
     @Override
     public UserBidTransferObject getMaxBid(long auctionId) {

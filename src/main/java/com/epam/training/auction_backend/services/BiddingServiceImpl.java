@@ -10,8 +10,12 @@ import java.util.Optional;
 
 @Service(value = "biddingServiceImpl")
 public class BiddingServiceImpl implements BiddingService {
-    @Autowired
     private BiddingStore biddingStore;
+
+    @Autowired
+    public BiddingServiceImpl(BiddingStore biddingStore) {
+        this.biddingStore = biddingStore;
+    }
 
     @Override
     public Optional<UserBidTransferObject> getMaxBid(long auctionId) {
