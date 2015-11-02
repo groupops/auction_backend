@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import com.epam.training.auction.common.UserTransferObject;
 import com.epam.training.auction.common.UsersService;
 import com.epam.training.auction_backend.entity.User;
-import org.springframework.stereotype.Component;
 
 @Service(value = "usersServiceImpl")
 public final class UsersServiceImpl implements UsersService {
-    private static final Logger logger = Logger.getLogger(UsersServiceImpl.class);
+    private static final long serialVersionUID = -338971724443291928L;
+	private static final Logger logger = Logger.getLogger(UsersServiceImpl.class);
     private UserRepository repository;
 
     @Autowired
@@ -33,23 +33,23 @@ public final class UsersServiceImpl implements UsersService {
 
     public Optional<UserTransferObject> getUserById(long id) {
         User user = repository.findOne(id);
-        Optional<UserTransferObject> userTransferObject;
-        if (user == null) {
-            userTransferObject = Optional.empty();
-        } else {
-            userTransferObject = Optional.of(new UserTransferObject(user.getId(), user.getPassword(), user.getUserName()));
-        }
+        Optional<UserTransferObject> userTransferObject = convertToTransferObject(user);
         return userTransferObject;
     }
 
     public Optional<UserTransferObject> getUserByName(String userName) {
         User user = repository.findByUserName(userName);
-        Optional<UserTransferObject> userTransferObject;
-        if (user == null) {
-            userTransferObject = Optional.empty();
-        } else {
-            userTransferObject = Optional.of(new UserTransferObject(user.getId(), user.getPassword(), user.getUserName()));
-        }
+        Optional<UserTransferObject> userTransferObject = convertToTransferObject(user);
         return userTransferObject;
+    }
+
+    private Optional<UserTransferObject> convertToTransferObject(User user) {
+    	Optional<UserTransferObject> userTransferObject;
+    	if (user == null) {
+    		userTransferObject = Optional.empty();
+    	} else {
+    		userTransferObject = Optional.of(new UserTransferObject(user.getId(), user.getPassword(), user.getUserName()));
+    	}
+    	return userTransferObject;
     }
 }
