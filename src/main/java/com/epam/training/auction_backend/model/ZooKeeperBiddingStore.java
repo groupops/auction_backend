@@ -29,6 +29,7 @@ import static org.apache.zookeeper.ZooDefs.Ids.OPEN_ACL_UNSAFE;
 @Component
 public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
     private static final Logger LOG = Logger.getLogger(ZooKeeperBiddingStore.class);
+    //TODO: use path from properties
     private static final String ZOO_KEEPER_CONNECTION_PATH = "10.30.0.99:2181";
     private static final int ZOO_KEEPER_SESSION_TTL = 2 * 60 * 1000;
     private static final String AUCTION_BIDS_PATH = "/auction/%d/bid";
@@ -38,20 +39,29 @@ public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
 
     @Override
     public UserBidTransferObject getMaxBid(long auctionId) {
-        return getMaxBidByPath(String.format(AUCTION_BIDS_PATH, auctionId));
+        return getHighestBidByPath(String.format(AUCTION_BIDS_PATH, auctionId));
     }
 
-    private UserBidTransferObject getMaxBidByPath(String auctionPath) {
+    private UserBidTransferObject getHighestBidByPath(String auctionPath) {
         try {
-            List<String> bids = getZooKeeper().getChildren(auctionPath, true);
-            long maxBid = bids.stream().mapToLong(Long::valueOf).max().orElse(0);
-            Stat stat = getZooKeeper().exists(auctionPath + "/" + maxBid, true);
-            byte[] serializedBidderId = getZooKeeper().getData(auctionPath + "/" + maxBid, true, stat);
-            UserTransferObject user = usersService.getUserById((Long) SerializationUtils.deserialize(serializedBidderId)).get();
+            long maxBid = getMaxBidByAuctionPath(auctionPath);
+            long bidderId = getBidderIdByPath(auctionPath + "/" + maxBid);
+            UserTransferObject user = usersService.getUserById(bidderId).get();
             return new UserBidTransferObject(user, maxBid);
         } catch (KeeperException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private long getMaxBidByAuctionPath(String auctionPath) throws KeeperException, InterruptedException {
+        List<String> bids = getZooKeeper().getChildren(auctionPath, true);
+        return bids.stream().mapToLong(Long::valueOf).max().orElse(0);
+    }
+
+    private long getBidderIdByPath(String bidPath) throws KeeperException, InterruptedException {
+        Stat stat = getZooKeeper().exists(bidPath, true);
+        byte[] serializedBidderId = getZooKeeper().getData(bidPath, true, stat);
+        return (long) SerializationUtils.deserialize(serializedBidderId);
     }
 
     @Override
@@ -69,7 +79,9 @@ public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
             if (stat != null) {
                 byte[] serializedPreviousBidder = getZooKeeper().getData(currentBidPath, true, stat);
                 long previousBidderId = (long) SerializationUtils.deserialize(serializedPreviousBidder);
-                throw new BiddingRaceException(usersService.getUserById(previousBidderId).orElse(null), getMaxBidByPath(bidsRoot).getBid());
+                UserTransferObject otherBidder = usersService.getUserById(previousBidderId).get();
+                UserBidTransferObject highestBid = getHighestBidByPath(bidsRoot);
+                throw new BiddingRaceException(otherBidder, highestBid.getBid());
             } else {
                 getZooKeeper().create(currentBidPath, SerializationUtils.serialize(userId), OPEN_ACL_UNSAFE, PERSISTENT);
             }

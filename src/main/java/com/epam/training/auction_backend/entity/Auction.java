@@ -7,11 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "AUCTIONS")
-public final class Auction implements Serializable{
-
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", unique = true, nullable = false, insertable = false, updatable = false)*/
+public final class Auction implements Serializable {
     private Long id;
 
     @Column(name = "TITLE")
@@ -20,14 +16,7 @@ public final class Auction implements Serializable{
     @Column(name = "DESCRIPTION")
     private String description;
 
-    //@JoinColumn(name = "ID")
-    //@Column(name = "SELLER_USER_ID")
     private User sellerUser;
-
-  /*  @ManyToOne
-    @JoinColumn(name = "ID")
-    //@Column(name = "WINNER_USER_ID")
-    private User winnerUser;*/
 
     @Column(name = "FINAL_PRICE")
     private double finalPrice;
@@ -41,13 +30,17 @@ public final class Auction implements Serializable{
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
+    public Auction() {
+    }
+
     public Auction(String title, String description, User sellerUser) {
         this.title = title;
         this.description = description;
         this.sellerUser = sellerUser;
     }
 
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -80,14 +73,6 @@ public final class Auction implements Serializable{
     public void setSellerUser(User sellerUser) {
         this.sellerUser = sellerUser;
     }
-
-/*    public User getWinnerUser() {
-        return winnerUser;
-    }
-
-    public void setWinnerUser(User winnerUser) {
-        this.winnerUser = winnerUser;
-    }*/
 
     public double getFinalPrice() {
         return finalPrice;
@@ -124,7 +109,7 @@ public final class Auction implements Serializable{
     @Override
     public String toString() {
         return "Auction [id=" + id + ", title=" + title + ", description=" + description + ", sellerUser=" + sellerUser
-                /*+ ", winnerUser=" + winnerUser */+ ", finalPrice=" + finalPrice + ", isActive=" + isActive
+                + ", finalPrice=" + finalPrice + ", isActive=" + isActive
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
 }

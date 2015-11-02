@@ -6,20 +6,18 @@ import java.util.List;
 
 @Entity
 @Table(name = "USERS")
-public final class User implements Serializable{
-
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", unique = true, nullable = false)*/
+public final class User implements Serializable {
     private Long id;
-
     private List<Auction> auctions;
 
     @Column(name = "USERNAME", unique = true)
     private String userName;
 
-    @Column(name = "PASSWORD", unique = true)
+    @Column(name = "PASSWORD")
     private String password;
+
+    public User() {
+    }
 
     public User(String userName, String password) {
         this.userName = userName;
