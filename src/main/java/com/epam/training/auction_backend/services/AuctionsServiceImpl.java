@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public final class AuctionsServiceImpl implements AuctionsService {
-    private static final Logger logger = Logger.getLogger(AuctionsServiceImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(AuctionsServiceImpl.class);
     private AuctionRepository auctionRepository;
 
     @Autowired
@@ -36,7 +36,7 @@ public final class AuctionsServiceImpl implements AuctionsService {
         User seller = new User(auctionTransferObject.getSeller().getUsername(), auctionTransferObject.getSeller().getPassword());
         Auction auction = new Auction(auctionTransferObject.getTitle(), auctionTransferObject.getDescription(), seller);
         auctionRepository.save(auction);
-        logger.info("Book " + auction.getTitle() + " is successfully added to the auction.");
+        LOGGER.info("Book " + auction.getTitle() + " is successfully added to the auction.");
     }
 
     public Optional<AuctionTransferObject> getAuctionById(long id) {
