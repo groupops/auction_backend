@@ -1,58 +1,68 @@
 package com.epam.training.auction_backend.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "USERS")
-public final class User {
+public final class User implements Serializable{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", unique = true, nullable = false)
-	private int id;
+    /*@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", unique = true, nullable = false)*/
+    private Long id;
 
-	@Column(name = "USERNAME", unique = true)
-	private String userName;
+    private List<Auction> auctions;
 
-	@Column(name = "PASSWORD", unique = true)
-	private String password;
+    @Column(name = "USERNAME", unique = true)
+    private String userName;
 
-	public User(String userName, String password) {
-		this.userName = userName;
-		this.password = password;
-	}
+    @Column(name = "PASSWORD", unique = true)
+    private String password;
 
-	public int getId() {
-		return id;
-	}
+    public User(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
+        return id;
+    }
 
-	public String getUserName() {
-		return userName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", password=" + password + "]";
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @OneToMany(mappedBy = "sellerUser")
+    public List<Auction> getAuctions() {
+        return auctions;
+    }
+
+    public void setAuctions(List<Auction> auctions) {
+        this.auctions = auctions;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", userName=" + userName + ", password=" + password + "]";
+    }
 }
