@@ -2,6 +2,7 @@ package com.epam.training.auction_backend.model;
 
 import com.epam.training.auction.common.BiddingRaceException;
 import com.epam.training.auction.common.UserBidTransferObject;
+import com.epam.training.auction_backend.exception.BiddingException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,17 @@ public class ZooKeeperBiddingStoreTest {
         assertThat(maxBid.getBid(), equalTo(MAX_BID));
     }
 
+    @Test(expected = BiddingException.class)
+    public void exceptionWhenAskForMaximumValueBeforeBidingStarted() throws Exception {
+        int auctionId = new Random().nextInt();
+
+        biddingStore.getMaxBid(auctionId);
+    }
+
     @Test(expected = BiddingRaceException.class)
     public void exceptionWhenTwoBidsWithSamePrice() throws Exception {
         int auctionId = new Random().nextInt();
+
         biddingStore.makeBid(auctionId, 123, 2);
         biddingStore.makeBid(auctionId, 124, 2);
         biddingStore.makeBid(auctionId, 125, 2);

@@ -4,6 +4,8 @@ import com.epam.training.auction.common.BiddingRaceException;
 import com.epam.training.auction.common.UserBidTransferObject;
 import com.epam.training.auction.common.UserTransferObject;
 import com.epam.training.auction.common.UsersService;
+import com.epam.training.auction_backend.exception.BiddingException;
+import org.apache.camel.RuntimeCamelException;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
@@ -53,13 +55,13 @@ public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
             UserTransferObject user = usersService.getUserById(bidderId).get();
             return new UserBidTransferObject(user, maxBid);
         } catch (KeeperException | InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new BiddingException(e);
         }
     }
 
     private long getMaxBidByAuctionPath(String auctionPath) throws KeeperException, InterruptedException {
         List<String> bids = getZooKeeper().getChildren(auctionPath, true);
-        return bids.stream().mapToLong(Long::valueOf).max().orElse(0);
+        return bids.stream().mapToLong(Long::valueOf).max().orElseThrow(() -> new BiddingException("No Bids in this auction!"));
     }
 
     private long getBidderIdByPath(String bidPath) throws KeeperException, InterruptedException {
