@@ -15,13 +15,14 @@ public final class UsersServiceImpl implements UsersService {
 
 	private static final Logger logger = Logger.getLogger(UsersServiceImpl.class);
 	
-	@Autowired
+
 	private UserRepository repository;
 	
 	public void addUser(UserTransferObject userTransferObject) {
-		User user = new User(userTransferObject.getUsername(), userTransferObject.getPassword());
-		repository.save(user);
-		logger.info("User " + user.getUserName() + " is successfully created.");
+//		User user = new User(userTransferObject.getUsername(), userTransferObject.getPassword());
+//		repository.save(user);
+//		logger.info("User " + user.getUserName() + " is successfully created.");
+	    System.out.println("SUCESSFUL CALL");
 	}
 
 	public Optional<UserTransferObject> getUserById(long id) {

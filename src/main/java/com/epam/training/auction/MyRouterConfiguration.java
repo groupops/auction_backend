@@ -5,22 +5,22 @@ import org.apache.camel.builder.RouteBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.epam.training.auction_backend.services.UsersServiceImpl;
+
 @Configuration
 public class MyRouterConfiguration {
- 
-  @Bean
-  RoutesBuilder myRouter() {
-    return new RouteBuilder() {
- 
-      @Override
-      public void configure() throws Exception {
-          System.out.println("INIT");
-          from("jms:queue:auctions").to("auctionsServiceImpl");
-          from("jms:queue:users").to("usersServiceImpl");
-          from("jms:queue:bidding").to("biddingServiceImpl");
-      }
- 
-    };
-  }
- 
+
+    @Bean
+    public RoutesBuilder myRouter() {
+        return new RouteBuilder() {
+
+            @Override
+            public void configure() throws Exception {
+                from("jms:queue:auctions").to("bean:auctionsServiceImpl");
+                from("jms:queue:users").to("bean:usersServiceImpl");
+                from("jms:queue:bidding").to("bean:biddingServiceImpl");
+            }
+        };
+    }
+
 }
