@@ -22,7 +22,7 @@ buildscript {
 
 jar {
     baseName = 'auction_backend'
-    version =  '0.1.0'
+    version = '0.1.0'
 }
 
 repositories {
@@ -34,7 +34,7 @@ repositories {
 
 jar {
     baseName = 'auction_backend'
-    version =  '0.1.0'
+    version = '0.1.0'
 }
 
 dependencies {
@@ -45,22 +45,27 @@ dependencies {
       "org.apache.activemq:activemq-camel:5.12.1",
       "org.apache.activemq:activemq-pool:5.12.1")
 
-    
+
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.springframework:spring-messaging")
     compile("org.springframework:spring-jms")
     compile("org.springframework.security:spring-security-web")
     compile("org.springframework.security:spring-security-config")
+    compile("org.apache.camel:camel-spring-boot:2.15.0")
+    compile("org.apache.activemq:activemq-camel:5.10.0")
 
-    compile("org.hibernate:hibernate-core:4.0.1.Final")
+    compile("org.hibernate:hibernate-core:4.3.5.Final")
+    compile("org.hibernate:hibernate-entitymanager:4.3.5.Final")
+    compile("org.hibernate:hibernate-commons-annotations:3.2.0.Final")
     compile("mysql:mysql-connector-java:5.1.37")
     compile("log4j:log4j:1.2.16")
-    compile("junit:junit:4.12")
-    compile("org.mockito:mockito-all:1.8.4")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile('com.epam.training.auction:auction_common:1.0')
-    testCompile("junit:junit")
+    compile('org.apache.zookeeper:zookeeper:3.4.6') {
+        exclude group: 'org.slf4j'
+    }
+    testCompile('org.springframework.boot:spring-boot-starter-test:1.2.3.RELEASE')
 }
 
 sonarqube {

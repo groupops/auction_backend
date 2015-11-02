@@ -1,135 +1,115 @@
 package com.epam.training.auction_backend.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "AUCTIONS")
-public final class Auction {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", unique = true, nullable = false)
-	private long id;
-	
-	@Column(name = "TITLE")
-	private String title;
-	
-	@Column(name = "DESCRIPTION")
-	private String description;
-	
-	@ManyToOne
-	@JoinColumn(name = "ID")
-	@Column(name = "SELLER_USER_ID")
-	private User sellerUser;
-	
-	@ManyToOne
-	@JoinColumn(name = "ID")
-	@Column(name = "WINNER_USER_ID")
-	private User winnerUser;
-	
-	@Column(name = "FINAL_PRICE")
-	private double finalPrice;
-	
-	@Column(name = "IS_ACTIVE")
-	private boolean isActive;
-	
-	@Column(name = "CREATED_AT")
-	private LocalDateTime createdAt;
-	
-	@Column(name = "UPDATED_AT")
-	private LocalDateTime updatedAt;
+public final class Auction implements Serializable {
+    private Long id;
 
-	public Auction(String title, String description, User sellerUser) {
-		this.title = title;
-		this.description = description;
-		this.sellerUser = sellerUser;
-	}
+    @Column(name = "TITLE")
+    private String title;
 
-	public long getId() {
-		return id;
-	}
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    private User sellerUser;
 
-	public String getTitle() {
-		return title;
-	}
+    @Column(name = "FINAL_PRICE")
+    private double finalPrice;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    @Column(name = "IS_ACTIVE")
+    private boolean isActive;
 
-	public String getDescription() {
-		return description;
-	}
+    @Column(name = "CREATED_AT")
+    private LocalDateTime createdAt;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    @Column(name = "UPDATED_AT")
+    private LocalDateTime updatedAt;
 
-	public User getSellerUser() {
-		return sellerUser;
-	}
+    public Auction() {
+    }
 
-	public void setSellerUser(User sellerUser) {
-		this.sellerUser = sellerUser;
-	}
+    public Auction(String title, String description, User sellerUser) {
+        this.title = title;
+        this.description = description;
+        this.sellerUser = sellerUser;
+    }
 
-	public User getWinnerUser() {
-		return winnerUser;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
+        return id;
+    }
 
-	public void setWinnerUser(User winnerUser) {
-		this.winnerUser = winnerUser;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public double getFinalPrice() {
-		return finalPrice;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setFinalPrice(double finalPrice) {
-		this.finalPrice = finalPrice;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public boolean isActive() {
-		return isActive;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
+    @ManyToOne(cascade = CascadeType.ALL)
+    public User getSellerUser() {
+        return sellerUser;
+    }
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setSellerUser(User sellerUser) {
+        this.sellerUser = sellerUser;
+    }
 
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
+    public double getFinalPrice() {
+        return finalPrice;
+    }
 
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public void setFinalPrice(double finalPrice) {
+        this.finalPrice = finalPrice;
+    }
 
-	@Override
-	public String toString() {
-		return "Auction [id=" + id + ", title=" + title + ", description=" + description + ", sellerUser=" + sellerUser
-				+ ", winnerUser=" + winnerUser + ", finalPrice=" + finalPrice + ", isActive=" + isActive
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
-	}
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Auction [id=" + id + ", title=" + title + ", description=" + description + ", sellerUser=" + sellerUser
+                + ", finalPrice=" + finalPrice + ", isActive=" + isActive
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+    }
 }

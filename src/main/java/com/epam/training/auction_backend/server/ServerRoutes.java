@@ -27,7 +27,7 @@ public class ServerRoutes extends RouteBuilder {
     from("jms:queue:auctions").to("auctionsServiceImpl");
     from("jms:queue:users").to("usersServiceImpl");
     from("jms:queue:bidding").to("biddingServiceImpl");
-    
+
   }
 
 }

@@ -1,20 +1,29 @@
 package com.epam.training.auction_backend.services;
 
 import com.epam.training.auction.common.BiddingService;
-import com.epam.training.auction.common.UserBid;
+import com.epam.training.auction.common.UserBidTransferObject;
+import com.epam.training.auction_backend.model.BiddingStore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service(value = "biddingServiceImpl")
 public class BiddingServiceImpl implements BiddingService {
-  @Override
-  public Optional<UserBid> getMaxBid(long l) {
-    return null;
-  }
+    private BiddingStore biddingStore;
 
-  @Override
-  public void bid(long l, double v, long l1) {
+    @Autowired
+    public BiddingServiceImpl(BiddingStore biddingStore) {
+        this.biddingStore = biddingStore;
+    }
 
-  }
+    @Override
+    public Optional<UserBidTransferObject> getMaxBid(long auctionId) {
+        return Optional.of(biddingStore.getMaxBid(auctionId));
+    }
+
+    @Override
+    public void bid(long auctionId, long bidPrice, long userId) {
+        biddingStore.makeBid(auctionId, bidPrice, userId);
+    }
 }

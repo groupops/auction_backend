@@ -1,14 +1,14 @@
 package com.epam.training.auction_backend.services;
 
-import java.util.Optional;
-
-import org.springframework.data.repository.CrudRepository;
-
-import com.epam.training.auction.common.UserTransferObject;
 import com.epam.training.auction_backend.entity.User;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-	public UserTransferObject save(UserTransferObject user);
-	public Optional<UserTransferObject> findOne(long id);
-	public Optional<UserTransferObject> findByUserName(String userName);
+    User save(User user);
+
+    User findOne(Long id);
+
+    User findByUserName(String userName);
 }
