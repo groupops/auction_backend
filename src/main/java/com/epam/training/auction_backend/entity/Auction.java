@@ -17,6 +17,8 @@ public final class Auction implements Serializable {
     private String description;
 
     private User sellerUser;
+    
+    private User winnerUser;
 
     @Column(name = "FINAL_PRICE")
     private double finalPrice;
@@ -74,7 +76,16 @@ public final class Auction implements Serializable {
         this.sellerUser = sellerUser;
     }
 
-    public double getFinalPrice() {
+    @ManyToOne(cascade = CascadeType.ALL)
+    public User getWinnerUser() {
+		return winnerUser;
+	}
+
+	public void setWinnerUser(User winnerUser) {
+		this.winnerUser = winnerUser;
+	}
+
+	public double getFinalPrice() {
         return finalPrice;
     }
 
