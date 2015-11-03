@@ -33,14 +33,12 @@ public final class UsersServiceImpl implements UsersService {
 
     public Optional<UserTransferObject> getUserById(long id) {
         User user = repository.findOne(id);
-        Optional<UserTransferObject> userTransferObject = convertToTransferObject(user);
-        return userTransferObject;
+        return convertToTransferObject(user);
     }
 
     public Optional<UserTransferObject> getUserByName(String userName) {
         User user = repository.findByUserName(userName);
-        Optional<UserTransferObject> userTransferObject = convertToTransferObject(user);
-        return userTransferObject;
+        return convertToTransferObject(user);
     }
 
     private Optional<UserTransferObject> convertToTransferObject(User user) {
