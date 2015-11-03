@@ -46,7 +46,7 @@ public final class UsersServiceImpl implements UsersService {
     	if (user == null) {
     		userTransferObject = Optional.empty();
     	} else {
-    		userTransferObject = Optional.of(new UserTransferObject(user.getId(), user.getPassword(), user.getUserName()));
+    		userTransferObject = Optional.of(new UserTransferObject(user.getId(), user.getUserName(), user.getPassword()));
     	}
     	return userTransferObject;
     }
