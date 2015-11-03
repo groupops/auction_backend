@@ -2,7 +2,11 @@ package com.epam.training.auction_backend.model;
 
 import com.epam.training.auction.common.BiddingRaceException;
 import com.epam.training.auction.common.UserBidTransferObject;
+import com.epam.training.auction.common.UserTransferObject;
+import com.epam.training.auction.common.UsersService;
 import com.epam.training.auction_backend.exception.BiddingException;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +28,17 @@ public class ZooKeeperBiddingStoreTest {
     private static final long MAX_BID = 10000;
     @Autowired
     private BiddingStore biddingStore;
+    @Autowired
+    private UsersService usersService;
 
+    @Before
+    public void before() {
+    	UserTransferObject userAlex = new UserTransferObject(1, "Alex", "Alex");
+    	UserTransferObject userDmytro = new UserTransferObject(1, "Dmytro", "Dmytro");
+    	usersService.addUser(userAlex);
+    	usersService.addUser(userDmytro);
+    }
+    
     @Test
     public void testGetMaxBid() throws Exception {
         int auctionId = new Random().nextInt();
