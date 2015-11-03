@@ -1,4 +1,4 @@
-package com.epam.training.auction_backend.exceptions;
+package com.epam.training.auction_backend.exception;
 
 import com.epam.training.auction_backend.entity.Auction;
 
