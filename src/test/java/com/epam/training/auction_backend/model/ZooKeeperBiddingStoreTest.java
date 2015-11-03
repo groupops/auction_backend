@@ -30,19 +30,25 @@ public class ZooKeeperBiddingStoreTest {
     private BiddingStore biddingStore;
     @Autowired
     private UsersService usersService;
+    private int auctionId;
 
     @Before
     public void before() {
     	UserTransferObject userAlex = new UserTransferObject(1, "Alex", "Alex");
-    	UserTransferObject userDmytro = new UserTransferObject(1, "Dmytro", "Dmytro");
+    	UserTransferObject userDmytro = new UserTransferObject(2, "Dmytro", "Dmytro");
+    	UserTransferObject userAhmed = new UserTransferObject(3, "Ahmed", "Ahmed");
+    	UserTransferObject userAdam = new UserTransferObject(4, "Adam", "Adam");
     	usersService.addUser(userAlex);
     	usersService.addUser(userDmytro);
+    	usersService.addUser(userAhmed);
+    	usersService.addUser(userAdam);
+    	
+    	auctionId = new Random().nextInt();
     }
     
     @Test
     public void testGetMaxBid() throws Exception {
-        int auctionId = new Random().nextInt();
-        biddingStore.makeBid(auctionId, 10, 2);
+    	biddingStore.makeBid(auctionId, 10, 2);
         biddingStore.makeBid(auctionId, 11, 4);
         biddingStore.makeBid(auctionId, 12, 1);
         biddingStore.makeBid(auctionId, MAX_BID, 2);
@@ -54,16 +60,12 @@ public class ZooKeeperBiddingStoreTest {
 
     @Test(expected = BiddingException.class)
     public void exceptionWhenAskForMaximumValueBeforeBidingStarted() throws Exception {
-        int auctionId = new Random().nextInt();
-
-        biddingStore.getMaxBid(auctionId);
+    	biddingStore.getMaxBid(auctionId);
     }
 
     @Test(expected = BiddingRaceException.class)
     public void exceptionWhenTwoBidsWithSamePrice() throws Exception {
-        int auctionId = new Random().nextInt();
-
-        biddingStore.makeBid(auctionId, 123, 2);
+    	biddingStore.makeBid(auctionId, 123, 2);
         biddingStore.makeBid(auctionId, 124, 2);
         biddingStore.makeBid(auctionId, 125, 2);
         biddingStore.makeBid(auctionId, 125, 2);
