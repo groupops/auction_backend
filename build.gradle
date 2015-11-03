@@ -69,6 +69,7 @@ dependencies {
 
     compile('org.apache.camel:camel-jms:2.16.0')
     compile("mysql:mysql-connector-java:5.1.37")
+    compile("com.h2database:h2:1.3.148")
     compile("log4j:log4j:1.2.16")
 
     compile('com.epam.training.auction:auction_common:1.0')
