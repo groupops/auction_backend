@@ -2,12 +2,14 @@ package com.epam.training.auction_backend.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "AUCTIONS")
 public final class Auction implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "TITLE")
@@ -16,15 +18,19 @@ public final class Auction implements Serializable {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
+    @JoinColumn(name="USER_ID")
     private User sellerUser;
-    
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
+    //@JoinColumn(name="USER_ID")
     private User winnerUser;
 
     @Column(name = "FINAL_PRICE")
     private double finalPrice;
 
     @Column(name = "IS_ACTIVE")
-    private boolean isActive;
+    private boolean active;
 
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
@@ -41,8 +47,6 @@ public final class Auction implements Serializable {
         this.sellerUser = sellerUser;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -67,7 +71,6 @@ public final class Auction implements Serializable {
         this.description = description;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
     public User getSellerUser() {
         return sellerUser;
     }
@@ -76,16 +79,15 @@ public final class Auction implements Serializable {
         this.sellerUser = sellerUser;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
     public User getWinnerUser() {
-		return winnerUser;
-	}
+        return winnerUser;
+    }
 
-	public void setWinnerUser(User winnerUser) {
-		this.winnerUser = winnerUser;
-	}
+    public void setWinnerUser(User winnerUser) {
+        this.winnerUser = winnerUser;
+    }
 
-	public double getFinalPrice() {
+    public double getFinalPrice() {
         return finalPrice;
     }
 
@@ -93,12 +95,12 @@ public final class Auction implements Serializable {
         this.finalPrice = finalPrice;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean getActive() {
+        return active;
     }
 
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -120,7 +122,7 @@ public final class Auction implements Serializable {
     @Override
     public String toString() {
         return "Auction [id=" + id + ", title=" + title + ", description=" + description + ", sellerUser=" + sellerUser
-                + ", finalPrice=" + finalPrice + ", isActive=" + isActive
+                + ", finalPrice=" + finalPrice + ", active=" + active
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
 }
