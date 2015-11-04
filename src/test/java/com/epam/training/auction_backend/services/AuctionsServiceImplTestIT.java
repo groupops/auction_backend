@@ -4,20 +4,15 @@ import com.epam.training.auction.common.AuctionTransferObject;
 import com.epam.training.auction.common.UsersService;
 import com.epam.training.auction_backend.entity.Auction;
 import com.epam.training.auction_backend.entity.User;
-import com.epam.training.auction_backend.model.TestContextConfiguration;
+import com.epam.training.auction_backend.util.CommonIntegrationTestSuit;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = TestContextConfiguration.class)
-public class AuctionsServiceImplTestIT {
+public class AuctionsServiceImplTestIT extends CommonIntegrationTestSuit {
 
     @Autowired
     private AuctionRepository auctionRepository;
@@ -50,7 +45,7 @@ public class AuctionsServiceImplTestIT {
 
         // get archived auctions and check if size match
         List<AuctionTransferObject> archivedAuctions = auctionsService.getArchivedAuctions();
-        int actualArchivedAuctionsSize = archivedAuctions.size();
+        final int actualArchivedAuctionsSize = archivedAuctions.size();
         Assert.assertEquals("The getArchivedAuctions() method fetched wrong size of auctions",
                 expectedArchivedAuctionsSize, actualArchivedAuctionsSize);
     }
@@ -69,7 +64,7 @@ public class AuctionsServiceImplTestIT {
 
         // get archived auctions and check if size match
         List<AuctionTransferObject> activeAuctions = auctionsService.getActiveAuctions();
-        int actualActiveAuctionsSize = activeAuctions.size();
+        final int actualActiveAuctionsSize = activeAuctions.size();
         Assert.assertEquals("The getActiveAuctions() method fetched wrong size of auctions",
                 expectedActiveAuctionsSize, actualActiveAuctionsSize);
     }
