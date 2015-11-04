@@ -47,8 +47,27 @@ public class AuctionsServiceImplTestIT {
         // get archived auctions and check if size match
         List<AuctionTransferObject> archivedAuctions = auctionsService.getArchivedAuctions();
         int actualArchivedAuctionsSize = archivedAuctions.size();
-        Assert.assertEquals("The getArchivedAuctions() method fetch wrong size of auctions",
+        Assert.assertEquals("The getArchivedAuctions() method fetched wrong size of auctions",
                 expectedArchivedAuctionsSize, actualArchivedAuctionsSize);
+    }
+
+    @Test
+    @Transactional
+    public void getActiveAuctions() {
+        final int expectedActiveAuctionsSize = 2;
+
+        // create seller for auctions
+        User seller = createUser("Seller", "Seller");
+
+        // create two active auctions that must be saved in DB
+        auctionRepository.save(createAuction(true, seller));
+        auctionRepository.save(createAuction(true, seller));
+
+        // get archived auctions and check if size match
+        List<AuctionTransferObject> activeAuctions = auctionsService.getActiveAuctions();
+        int actualActiveAuctionsSize = activeAuctions.size();
+        Assert.assertEquals("The getActiveAuctions() method fetched wrong size of auctions",
+                expectedActiveAuctionsSize, actualActiveAuctionsSize);
     }
 
     private User createUser(String name, String password) {
@@ -60,6 +79,13 @@ public class AuctionsServiceImplTestIT {
         auction.setActive(isActive);
         auction.setSellerUser(userRepository.save(seller));
         auction.setWinnerUser(userRepository.save(winner));
+        return auction;
+    }
+
+    private Auction createAuction(boolean isActive, User seller) {
+        Auction auction = new Auction();
+        auction.setActive(isActive);
+        auction.setSellerUser(userRepository.save(seller));
         return auction;
     }
 }
