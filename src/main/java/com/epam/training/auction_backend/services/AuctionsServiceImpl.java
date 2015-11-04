@@ -28,7 +28,21 @@ public final class AuctionsServiceImpl implements AuctionsService {
     }
 
     public List<AuctionTransferObject> getActiveAuctions() {
-        return Collections.emptyList(); //TODO: auctionRepository.findByActive(true);
+        List<Auction> auctions = auctionRepository.findByActiveTrue();
+        List<AuctionTransferObject> auctionTransferObjects = new ArrayList<>();
+
+        for (Auction auction : auctions) {
+            AuctionTransferObject auctionTransferObject;
+
+            User user = auction.getSellerUser();
+            UserTransferObject userTransferObject =
+                    new UserTransferObject(user.getId(), user.getUserName(), user.getPassword());
+            auctionTransferObject = AuctionTransferObject
+                    .getBuilder(auction.getTitle(), userTransferObject).build();
+            auctionTransferObjects.add(auctionTransferObject);
+        }
+
+        return auctionTransferObjects;
     }
 
     public List<AuctionTransferObject> getArchivedAuctions() {
