@@ -27,36 +27,44 @@
          http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
          http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
 
-  <context:component-scan
-      base-package="com.epam.training.auction_backend.server"/>
+    <context:component-scan base-package="com.epam.training.auction_backend.server"/>
 
-  <!-- spring property placeholder, ignore resource not found as the file resource is for unit testing -->
-  <context:property-placeholder
-      location="classpath:camel.properties,file:target/custom.properties"
-      ignore-resource-not-found="true"/>
+    <camel:camelContext id="camel-1">
+        <camel:consumerTemplate id="camelConsumer"/>
+    </camel:camelContext>
 
-  <!-- declare a camel context that scans for classes that is RouteBuilder
-       in the package com.epam.training.auction_backend.server -->
-  <camel:camelContext id="camel-server">
-    <camel:package>com.epam.training.auction_backend.server</camel:package>
-    <!-- enable JMX connector so we can connect to the server and browse mbeans -->
-    <!-- Camel will log at INFO level the service URI to use for connecting with jconsole -->
-    <camel:jmxAgent id="agent" createConnector="true"/>
-  </camel:camelContext>
+    <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://0.0.0.0:61616"/>
+    </bean>
 
-  <!-- lets configure the ActiveMQ JMS broker server -->
-  <broker:broker useJmx="true" persistent="false" brokerName="myBroker">
-    <broker:transportConnectors>
-      <!-- expose a VM transport for in-JVM transport between AMQ and Camel on the server side -->
-      <broker:transportConnector name="vm" uri="vm://myBroker"/>
-      <!-- expose a TCP transport for clients to use -->
-      <broker:transportConnector name="tcp" uri="tcp://localhost:61616"/>
-    </broker:transportConnectors>
-  </broker:broker>
+    <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start"
+          destroy-method="stop">
+        <property name="maxConnections" value="8"/>
+        <property name="connectionFactory" ref="jmsConnectionFactory"/>
+    </bean>
 
-  <!-- lets configure the Camel ActiveMQ to use the embedded ActiveMQ broker declared above -->
-  <bean id="jms" class="org.apache.activemq.camel.component.ActiveMQComponent">
-    <property name="brokerURL" value="vm://myBroker"/>
-  </bean>
+    <bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
+        <property name="connectionFactory" ref="pooledConnectionFactory"/>
+        <property name="concurrentConsumers" value="10"/>
+    </bean>
+
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="configuration" ref="jmsConfig"/>
+    </bean>
+
+    <!--  Exposes the above bean as via the pojo:say endpoint -->
+    <bean id="userService" class="org.apache.camel.spring.remoting.CamelServiceExporter">
+        <property name="uri" value="direct:user"/>
+        <property name="service">
+            <bean class="com.epam.training.auction_backend.services.UsersServiceImpl"/>
+        </property>
+        <property name="serviceInterface" value="com.epam.training.auction.common.UsersService"/>
+    </bean>
+
+    <!--   <broker:broker id="broker" brokerName="camelBroker">
+           <broker:transportConnectors>
+               <broker:transportConnector name="tcp" uri="tcp://0.0.0.0:61616"/>
+           </broker:transportConnectors>
+       </broker:broker>-->
 
 </beans>
