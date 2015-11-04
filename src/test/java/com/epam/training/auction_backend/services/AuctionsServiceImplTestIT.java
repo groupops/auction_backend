@@ -1,6 +1,7 @@
 package com.epam.training.auction_backend.services;
 
 import com.epam.training.auction.common.AuctionTransferObject;
+import com.epam.training.auction.common.UsersService;
 import com.epam.training.auction_backend.entity.Auction;
 import com.epam.training.auction_backend.entity.User;
 import com.epam.training.auction_backend.model.TestContextConfiguration;
@@ -23,6 +24,9 @@ public class AuctionsServiceImplTestIT {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UsersService usersService;
 
     private AuctionsServiceImpl auctionsService;
 
@@ -68,6 +72,21 @@ public class AuctionsServiceImplTestIT {
         int actualActiveAuctionsSize = activeAuctions.size();
         Assert.assertEquals("The getActiveAuctions() method fetched wrong size of auctions",
                 expectedActiveAuctionsSize, actualActiveAuctionsSize);
+    }
+
+    @Test
+    @Transactional
+    public void getAuctionById() {
+        // create seller for auctions
+        User seller = createUser("Seller", "Seller");
+
+        // create active auction that must be saved in DB and get ID of saved entity
+        final long expectedAuctionId = auctionRepository.save(createAuction(true, seller)).getId();
+
+        // get the ID of fetched object
+        final long actualAuctionId = auctionsService.getAuctionById(expectedAuctionId).get().getId();
+
+        Assert.assertEquals("The getAuctionById method fetched wrong object", expectedAuctionId, actualAuctionId);
     }
 
     private User createUser(String name, String password) {
