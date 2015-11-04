@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import com.epam.training.auction.common.UserTransferObject;
 import com.epam.training.auction_backend.exception.ItemNotFoundException;
+import com.epam.training.auction_backend.util.AuctionMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,38 +30,12 @@ public final class AuctionsServiceImpl implements AuctionsService {
 
     public List<AuctionTransferObject> getActiveAuctions() {
         List<Auction> auctions = auctionRepository.findByActiveTrue();
-        List<AuctionTransferObject> auctionTransferObjects = new ArrayList<>();
-
-        for (Auction auction : auctions) {
-            AuctionTransferObject auctionTransferObject;
-
-            User user = auction.getSellerUser();
-            UserTransferObject userTransferObject =
-                    new UserTransferObject(user.getId(), user.getUserName(), user.getPassword());
-            auctionTransferObject = AuctionTransferObject
-                    .getBuilder(auction.getTitle(), userTransferObject).build();
-            auctionTransferObjects.add(auctionTransferObject);
-        }
-
-        return auctionTransferObjects;
+        return AuctionMapper.map(auctions);
     }
 
     public List<AuctionTransferObject> getArchivedAuctions() {
         List<Auction> auctions = auctionRepository.findByActiveFalse();
-        List<AuctionTransferObject> auctionTransferObjects = new ArrayList<>();
-
-        for (Auction auction : auctions) {
-            AuctionTransferObject auctionTransferObject;
-
-            User user = auction.getSellerUser();
-            UserTransferObject userTransferObject =
-                    new UserTransferObject(user.getId(), user.getUserName(), user.getPassword());
-            auctionTransferObject = AuctionTransferObject
-                    .getBuilder(auction.getTitle(), userTransferObject).build();
-            auctionTransferObjects.add(auctionTransferObject);
-        }
-
-        return auctionTransferObjects;
+        return AuctionMapper.map(auctions);
     }
 
     public void addAuction(AuctionTransferObject auctionTransferObject) {
