@@ -5,12 +5,13 @@ import com.epam.training.auction.common.UsersService;
 import com.epam.training.auction_backend.entity.Auction;
 import com.epam.training.auction_backend.entity.User;
 import com.epam.training.auction_backend.util.CommonIntegrationTestSuit;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.transaction.Transactional;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class AuctionsServiceImplTestIT extends CommonIntegrationTestSuit {
 
@@ -46,7 +47,7 @@ public class AuctionsServiceImplTestIT extends CommonIntegrationTestSuit {
         // get archived auctions and check if size match
         List<AuctionTransferObject> archivedAuctions = auctionsService.getArchivedAuctions();
         final int actualArchivedAuctionsSize = archivedAuctions.size();
-        Assert.assertEquals("The getArchivedAuctions() method fetched wrong size of auctions",
+        assertEquals("The getArchivedAuctions() method fetched wrong size of auctions",
                 expectedArchivedAuctionsSize, actualArchivedAuctionsSize);
     }
 
@@ -65,7 +66,7 @@ public class AuctionsServiceImplTestIT extends CommonIntegrationTestSuit {
         // get archived auctions and check if size match
         List<AuctionTransferObject> activeAuctions = auctionsService.getActiveAuctions();
         final int actualActiveAuctionsSize = activeAuctions.size();
-        Assert.assertEquals("The getActiveAuctions() method fetched wrong size of auctions",
+        assertEquals("The getActiveAuctions() method fetched wrong size of auctions",
                 expectedActiveAuctionsSize, actualActiveAuctionsSize);
     }
 
@@ -81,7 +82,7 @@ public class AuctionsServiceImplTestIT extends CommonIntegrationTestSuit {
         // get the ID of fetched object
         final long actualAuctionId = auctionsService.getAuctionById(expectedAuctionId).get().getId();
 
-        Assert.assertEquals("The getAuctionById method fetched wrong object", expectedAuctionId, actualAuctionId);
+        assertEquals("The getAuctionById method fetched wrong object", expectedAuctionId, actualAuctionId);
     }
 
     private User createUser(String name, String password) {
