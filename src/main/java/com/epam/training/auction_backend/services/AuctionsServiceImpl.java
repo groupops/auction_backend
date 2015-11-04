@@ -1,6 +1,5 @@
 package com.epam.training.auction_backend.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import com.epam.training.auction.common.UserTransferObject;
@@ -53,9 +52,7 @@ public final class AuctionsServiceImpl implements AuctionsService {
             LOGGER.error(format(AUCTION_NOT_FOUND_MESSAGE, id));
             throw new ItemNotFoundException(format(AUCTION_NOT_FOUND_MESSAGE, id));
         } else {
-            User user = auction.getSellerUser();
-            UserTransferObject userTransferObject = new UserTransferObject(user.getId(), user.getUserName(), user.getPassword());
-            auctionTransferObject = Optional.of(AuctionTransferObject.getBuilder(auction.getTitle(), userTransferObject).build());
+            auctionTransferObject = Optional.of(AuctionMapper.map(auction));
         }
 
         return auctionTransferObject;

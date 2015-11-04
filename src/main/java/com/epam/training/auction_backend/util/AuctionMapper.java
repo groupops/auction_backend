@@ -13,7 +13,9 @@ public class AuctionMapper {
 
     public static AuctionTransferObject map(Auction auction) {
         User user = auction.getSellerUser();
-        return AuctionTransferObject.getBuilder(auction.getTitle(), UserMapper.map(user)).build();
+        return AuctionTransferObject.getBuilder(auction.getTitle(), UserMapper.map(user))
+                .setId(auction.getId())
+                .build();
     }
 
     public static List<AuctionTransferObject> map(List<Auction> auctions) {
