@@ -1,7 +1,7 @@
 package com.epam.training.auction_backend.services;
 
 import com.epam.training.auction.common.AuctionsService;
-import com.epam.training.auction_backend.exceptions.ItemNotFoundException;
+import com.epam.training.auction_backend.exception.ItemNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
