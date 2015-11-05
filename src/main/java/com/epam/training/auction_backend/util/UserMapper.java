@@ -2,12 +2,10 @@ package com.epam.training.auction_backend.util;
 
 import com.epam.training.auction.common.UserTransferObject;
 import com.epam.training.auction_backend.entity.User;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component("userMapper")
 public class UserMapper {
 
     public static UserTransferObject map(User user) {

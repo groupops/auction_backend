@@ -2,7 +2,6 @@ package com.epam.training.auction_backend.services;
 
 import java.util.List;
 import java.util.Optional;
-import com.epam.training.auction.common.UserTransferObject;
 import com.epam.training.auction_backend.exception.ItemNotFoundException;
 import com.epam.training.auction_backend.util.AuctionMapper;
 import org.apache.log4j.Logger;

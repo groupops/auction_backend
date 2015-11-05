@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component("auctionMapper")
 public class AuctionMapper {
 
     public static AuctionTransferObject map(Auction auction) {
