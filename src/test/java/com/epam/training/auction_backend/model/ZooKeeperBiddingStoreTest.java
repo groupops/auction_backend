@@ -5,14 +5,12 @@ import com.epam.training.auction.common.UserBidTransferObject;
 import com.epam.training.auction.common.UserTransferObject;
 import com.epam.training.auction.common.UsersService;
 import com.epam.training.auction_backend.exception.BiddingException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import java.util.Random;
 
 import static org.hamcrest.CoreMatchers.equalTo;

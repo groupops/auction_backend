@@ -7,7 +7,13 @@ import java.util.List;
 @Entity
 @Table(name = "USERS")
 public final class User implements Serializable {
+
+    @Id
+    @Column(name="USER_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "sellerUser")
     private List<Auction> auctions;
 
     @Column(name = "USERNAME", unique = true)
@@ -24,8 +30,6 @@ public final class User implements Serializable {
         this.password = password;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -50,7 +54,6 @@ public final class User implements Serializable {
         this.password = password;
     }
 
-    @OneToMany(mappedBy = "sellerUser")
     public List<Auction> getAuctions() {
         return auctions;
     }
