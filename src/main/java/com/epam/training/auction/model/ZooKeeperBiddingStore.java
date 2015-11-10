@@ -51,7 +51,7 @@ public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
         try {
             long maxBid = getMaxBidByAuctionPath(auctionPath);
             long bidderId = getBidderIdByPath(auctionPath + "/" + maxBid);
-            UserTransferObject user = usersService.getUserById(bidderId).get();
+            UserTransferObject user = usersService.getUserById(bidderId);
             return new UserBidTransferObject(user, maxBid);
         } catch (KeeperException | InterruptedException e) {
             throw new BiddingException(e);
@@ -84,7 +84,7 @@ public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
             if (stat != null) {
                 byte[] serializedPreviousBidder = getZooKeeper().getData(currentBidPath, true, stat);
                 long previousBidderId = (long) SerializationUtils.deserialize(serializedPreviousBidder);
-                UserTransferObject otherBidder = usersService.getUserById(previousBidderId).get();
+                UserTransferObject otherBidder = usersService.getUserById(previousBidderId);
                 UserBidTransferObject highestBid = getHighestBidByPath(bidsRoot);
                 throw new BiddingRaceException(otherBidder, highestBid.getBid());
             } else {

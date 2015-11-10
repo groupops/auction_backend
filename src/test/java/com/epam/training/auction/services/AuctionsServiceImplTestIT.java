@@ -82,7 +82,7 @@ public class AuctionsServiceImplTestIT extends CommonIntegrationTestSuit {
         final long expectedAuctionId = auctionRepository.save(createAuction(true, seller)).getId();
 
         // get the ID of fetched object
-        final long actualAuctionId = auctionsService.getAuctionById(expectedAuctionId).get().getId();
+        final long actualAuctionId = auctionsService.getAuctionById(expectedAuctionId).getId();
 
         assertEquals("The getAuctionById method fetched wrong object", expectedAuctionId, actualAuctionId);
     }

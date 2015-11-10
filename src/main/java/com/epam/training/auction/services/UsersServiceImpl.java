@@ -7,8 +7,6 @@ import com.epam.training.auction.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service(value = "usersServiceImpl")
 public final class UsersServiceImpl implements UsersService {
     private static final long serialVersionUID = -338971724443291928L;
@@ -26,21 +24,15 @@ public final class UsersServiceImpl implements UsersService {
         return user.getId();
     }
 
-    public Optional<UserTransferObject> getUserById(long id) {
+    public UserTransferObject getUserById(long id) {
         return convertToTransferObject(repository.findOne(id));
     }
 
-    public Optional<UserTransferObject> getUserByName(String userName) {
+    public UserTransferObject getUserByName(String userName) {
         return convertToTransferObject(repository.findByUserName(userName));
     }
 
-    private Optional<UserTransferObject> convertToTransferObject(User user) {
-        Optional<UserTransferObject> userTransferObject;
-        if (user == null) {
-            userTransferObject = Optional.empty();
-        } else {
-            userTransferObject = Optional.of(new UserTransferObject(user.getId(), user.getUserName(), user.getPassword()));
-        }
-        return userTransferObject;
+    private UserTransferObject convertToTransferObject(User user) {
+        return user == null ? null : new UserTransferObject(user.getId(), user.getUserName(), user.getPassword());
     }
 }

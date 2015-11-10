@@ -1,4 +1,4 @@
-package com.epam.training.auction.server;
+package com.epam.training.auction.integration;
 
 import com.epam.training.auction.common.AuctionsService;
 import com.epam.training.auction.common.BiddingService;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class ServerRoutes {
+public class CamelConfigurations {
     @Autowired
     private UsersService usersService;
     @Autowired
@@ -24,7 +24,7 @@ public class ServerRoutes {
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                from("activemq:queue:users").bean(usersService, "addUser");
+                from("activemq:queue:users").bean(usersService);
                 from("activemq:queue:auctions").bean(auctionsService);
                 from("activemq:queue:bids").bean(biddingService);
             }

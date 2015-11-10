@@ -18,8 +18,8 @@ public class BiddingServiceImpl implements BiddingService {
     }
 
     @Override
-    public Optional<UserBidTransferObject> getMaxBid(long auctionId) {
-        return Optional.of(biddingStore.getMaxBid(auctionId));
+    public UserBidTransferObject getMaxBid(long auctionId) {
+        return biddingStore.getMaxBid(auctionId);
     }
 
     @Override

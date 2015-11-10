@@ -45,17 +45,13 @@ public final class AuctionsServiceImpl implements AuctionsService {
         return auction.getId();
     }
 
-    public Optional<AuctionTransferObject> getAuctionById(long id) {
+    public AuctionTransferObject getAuctionById(long id) {
         Auction auction = auctionRepository.findOne(id);
-        Optional<AuctionTransferObject> auctionTransferObject;
 
         if (auction == null) {
-            LOGGER.error(format(AUCTION_NOT_FOUND_MESSAGE, id));
             throw new ItemNotFoundException(format(AUCTION_NOT_FOUND_MESSAGE, id));
-        } else {
-            auctionTransferObject = Optional.of(AuctionMapper.map(auction));
         }
 
-        return auctionTransferObject;
+        return AuctionMapper.map(auction);
     }
 }

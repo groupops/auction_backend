@@ -18,18 +18,19 @@ import com.epam.training.auction.model.TestContextConfiguration;
 @SpringApplicationConfiguration(classes = TestContextConfiguration.class)
 public class UsersServiceTest {
 
-	@Autowired
-	private UsersService usersService;
-	
-	@Test
-	public void userIsAddedToDatabase() {
-		long userId = 1;
-		String userName = "Vasya";
-		String password = "Vasyas password";
-		UserTransferObject userTransferObject = new UserTransferObject(userId, userName, password);
-		usersService.addUser(userTransferObject);
-		
-		Optional<UserTransferObject> actualUserTransferObject = usersService.getUserByName(userName);
-		assertEquals(Optional.of(userTransferObject), actualUserTransferObject);
-	}
+    @Autowired
+    private UsersService usersService;
+
+    @Test
+    public void userIsAddedToDatabase() {
+        String userName = "Vasya";
+        String password = "Vasyas password";
+        UserTransferObject userTransferObject = new UserTransferObject(userName, password);
+        usersService.addUser(userTransferObject);
+
+        UserTransferObject actualUserTransferObject = usersService.getUserByName(userName);
+        assertEquals(userTransferObject.getPassword(), actualUserTransferObject.getPassword());
+        assertEquals(userTransferObject.getUsername(), actualUserTransferObject.getUsername());
+        assertNotNull(actualUserTransferObject.getId());
+    }
 }
