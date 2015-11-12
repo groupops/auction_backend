@@ -29,7 +29,7 @@ public final class UsersServiceImpl implements UsersService {
     }
 
     public UserTransferObject getUserByName(String userName) {
-        return convertToTransferObject(repository.findByUserName(userName));
+        return convertToTransferObject(repository.findByName(userName));
     }
 
     private UserTransferObject convertToTransferObject(User user) {
