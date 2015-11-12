@@ -3,6 +3,7 @@ package com.epam.training.auction.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "AUCTIONS")
@@ -26,16 +27,18 @@ public final class Auction implements Serializable {
     private User winnerUser;
 
     @Column(name = "FINAL_PRICE")
-    private double finalPrice;
+    private Double finalPrice;
 
     @Column(name = "IS_ACTIVE")
-    private boolean active;
+    private Boolean active;
 
     @Column(name = "CREATED_AT")
-    private LocalDateTime createdAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 
     @Column(name = "UPDATED_AT")
-    private LocalDateTime updatedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
 
     public Auction() {
     }
@@ -102,19 +105,19 @@ public final class Auction implements Serializable {
         this.active = active;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
