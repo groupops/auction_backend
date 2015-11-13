@@ -23,7 +23,7 @@ public class BiddingServiceImpl implements BiddingService {
     }
 
     @Override
-    public void bid(long auctionId, long bidPrice, long userId) {
-        biddingStore.makeBid(auctionId, bidPrice, userId);
+    public boolean bid(UserBidTransferObject bid) {
+        return biddingStore.makeBid(bid.getAuctionId(), bid.getBid(), bid.getUser().getId());
     }
 }
