@@ -19,10 +19,14 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static org.apache.zookeeper.CreateMode.PERSISTENT;
+import static org.apache.zookeeper.CreateMode.EPHEMERAL_SEQUENTIAL;
 import static org.apache.zookeeper.Watcher.Event.EventType.None;
 import static org.apache.zookeeper.ZooDefs.Ids.OPEN_ACL_UNSAFE;
+
+
 
 /**
  * Created by Dmytro_Ulanovych on 10/29/2015.
@@ -34,6 +38,7 @@ public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
     private static final String ZOO_KEEPER_CONNECTION_PATH = "10.30.0.99:2181";
     private static final int ZOO_KEEPER_SESSION_TTL = 2 * 60 * 1000;
     private static final String AUCTION_BIDS_PATH = "/auction/%d/bid";
+    private static final Pattern AUCTION_ID_PATTERN = Pattern.compile("[0-9]+");
     private ZooKeeper zooKeeper;
     private UsersService usersService;
 
@@ -49,13 +54,23 @@ public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
 
     private UserBidTransferObject getHighestBidByPath(String auctionPath) {
         try {
+            long auctionId = getAuctionIdFromPath(auctionPath);
             long maxBid = getMaxBidByAuctionPath(auctionPath);
             long bidderId = getBidderIdByPath(auctionPath + "/" + maxBid);
             UserTransferObject user = usersService.getUserById(bidderId);
-            return new UserBidTransferObject(user, maxBid);
+            return new UserBidTransferObject(user, auctionId, maxBid);
         } catch (KeeperException | InterruptedException e) {
             throw new BiddingException(e);
         }
+    }
+
+    private long getAuctionIdFromPath(String path) {
+        Matcher matcher = AUCTION_ID_PATTERN.matcher(path);
+        String auctionId = "";
+        if (matcher.find()) {
+            auctionId = matcher.group();
+        }
+        return Long.valueOf(auctionId);
     }
 
     private long getMaxBidByAuctionPath(String auctionPath) throws KeeperException, InterruptedException {
@@ -88,7 +103,7 @@ public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
                 UserBidTransferObject highestBid = getHighestBidByPath(bidsRoot);
                 throw new BiddingRaceException(otherBidder, highestBid.getBid());
             } else {
-                getZooKeeper().create(currentBidPath, SerializationUtils.serialize(userId), OPEN_ACL_UNSAFE, PERSISTENT);
+                getZooKeeper().create(currentBidPath, SerializationUtils.serialize(userId), OPEN_ACL_UNSAFE, EPHEMERAL_SEQUENTIAL);
             }
         } catch (KeeperException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -115,7 +130,7 @@ public class ZooKeeperBiddingStore implements BiddingStore, Watcher, Closeable {
                 path += "/" + tokens.nextToken();
                 Stat stat = getZooKeeper().exists(path, true);
                 if (stat == null) {
-                    getZooKeeper().create(path, new byte[0], OPEN_ACL_UNSAFE, PERSISTENT);
+                    getZooKeeper().create(path, new byte[0], OPEN_ACL_UNSAFE, EPHEMERAL_SEQUENTIAL);
                 }
             }
         } catch (KeeperException | InterruptedException e) {
