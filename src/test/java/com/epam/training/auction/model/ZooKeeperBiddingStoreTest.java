@@ -35,18 +35,18 @@ public class ZooKeeperBiddingStoreTest {
 
     @Before
     public void before() {
-        if (setUpDone) return;
-        UserTransferObject userAlex = new UserTransferObject("Alex", "Alex");
-        UserTransferObject userDmytro = new UserTransferObject("Dmytro", "Dmytro");
-        UserTransferObject userAhmed = new UserTransferObject("Ahmed", "Ahmed");
-        UserTransferObject userAdam = new UserTransferObject("Adam", "Adam");
-        usersService.addUser(userAlex);
-        usersService.addUser(userDmytro);
-        usersService.addUser(userAhmed);
-        usersService.addUser(userAdam);
-        auctionId = new Random().nextInt();
-
-        setUpDone = true;
+        if (!setUpDone) {
+            UserTransferObject userAlex = new UserTransferObject("Alex", "Alex");
+            UserTransferObject userDmytro = new UserTransferObject("Dmytro", "Dmytro");
+            UserTransferObject userAhmed = new UserTransferObject("Ahmed", "Ahmed");
+            UserTransferObject userAdam = new UserTransferObject("Adam", "Adam");
+            usersService.addUser(userAlex);
+            usersService.addUser(userDmytro);
+            usersService.addUser(userAhmed);
+            usersService.addUser(userAdam);
+            setUpDone = true;
+        }
+        auctionId = Math.abs(new Random().nextInt());
     }
 
 
