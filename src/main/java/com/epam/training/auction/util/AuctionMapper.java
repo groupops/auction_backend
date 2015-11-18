@@ -13,6 +13,7 @@ public class AuctionMapper {
         User user = auction.getSellerUser();
         return AuctionTransferObject.getBuilder(auction.getTitle(), UserMapper.map(user))
                 .setId(auction.getId())
+                .setDescription(auction.getDescription())
                 .build();
     }
 
