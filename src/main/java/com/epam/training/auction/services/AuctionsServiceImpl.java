@@ -6,13 +6,13 @@ import com.epam.training.auction.entity.Auction;
 import com.epam.training.auction.entity.User;
 import com.epam.training.auction.exception.ItemNotFoundException;
 import com.epam.training.auction.repository.AuctionRepository;
+import com.epam.training.auction.repository.UserRepository;
 import com.epam.training.auction.util.AuctionMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.lang.String.format;
 
@@ -20,6 +20,9 @@ import static java.lang.String.format;
 public final class AuctionsServiceImpl implements AuctionsService {
     private static final Logger LOGGER = Logger.getLogger(AuctionsServiceImpl.class);
     private static final String AUCTION_NOT_FOUND_MESSAGE = "Auction with id %d was not found";
+
+    @Autowired
+    private UserRepository userRepository;
 
     private AuctionRepository auctionRepository;
 
@@ -39,8 +42,9 @@ public final class AuctionsServiceImpl implements AuctionsService {
     }
 
     public Long addAuction(AuctionTransferObject auctionTransferObject) {
-        User seller = new User(auctionTransferObject.getSeller().getUsername(), auctionTransferObject.getSeller().getPassword());
+        User seller = userRepository.findByUserName(auctionTransferObject.getSeller().getUsername());
         Auction auction = new Auction(auctionTransferObject.getTitle(), auctionTransferObject.getDescription(), seller);
+        auction.setActive(true);
         auction = auctionRepository.save(auction);
         return auction.getId();
     }
