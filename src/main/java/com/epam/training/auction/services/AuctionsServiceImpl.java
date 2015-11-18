@@ -59,7 +59,7 @@ public final class AuctionsServiceImpl implements AuctionsService {
             LOGGER.info("The auction is started");
             try {
                 TimeUnit.MINUTES.sleep(2);
-                setAuctionAsArchived(auction);
+                archiveAuction(auction);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -67,7 +67,7 @@ public final class AuctionsServiceImpl implements AuctionsService {
         });
     }
 
-    private void setAuctionAsArchived(Auction auction){
+    private void archiveAuction(Auction auction){
         Auction finishedAuction = auctionRepository.getOne(auction.getId());
         finishedAuction.setActive(false);
         auctionRepository.save(finishedAuction);
