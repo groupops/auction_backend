@@ -18,10 +18,8 @@ import static java.lang.String.format;
 
 @Service(value = "auctionsServiceImpl")
 public final class AuctionsServiceImpl implements AuctionsService {
-    private static final Logger LOGGER =
-            Logger.getLogger(AuctionsServiceImpl.class);
-    private static final String AUCTION_NOT_FOUND_MESSAGE =
-            "Auction with id %d was not found";
+    private static final Logger LOGGER = Logger.getLogger(AuctionsServiceImpl.class);
+    private static final String AUCTION_NOT_FOUND_MESSAGE = "Auction with id %d was not found";
 
     @Autowired
     private UserRepository userRepository;
@@ -45,8 +43,7 @@ public final class AuctionsServiceImpl implements AuctionsService {
 
     public Long addAuction(AuctionTransferObject auctionTransferObject) {
         User seller = userRepository.findByUserName(auctionTransferObject.getSeller().getUsername());
-        Auction auction = new Auction(auctionTransferObject.getTitle(),
-                auctionTransferObject.getDescription(), seller);
+        Auction auction = new Auction(auctionTransferObject.getTitle(), auctionTransferObject.getDescription(), seller);
         auction.setActive(true);
         auction = auctionRepository.save(auction);
         return auction.getId();
