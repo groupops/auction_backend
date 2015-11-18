@@ -24,13 +24,13 @@ public final class AuctionsServiceImpl implements AuctionsService {
     private static final Logger LOGGER = Logger.getLogger(AuctionsServiceImpl.class);
     private static final String AUCTION_NOT_FOUND_MESSAGE = "Auction with id %d was not found";
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private AuctionRepository auctionRepository;
+    private final AuctionRepository auctionRepository;
 
     @Autowired
-    public AuctionsServiceImpl(AuctionRepository auctionRepository) {
+    public AuctionsServiceImpl(UserRepository userRepository, AuctionRepository auctionRepository) {
+        this.userRepository = userRepository;
         this.auctionRepository = auctionRepository;
     }
 
@@ -57,17 +57,21 @@ public final class AuctionsServiceImpl implements AuctionsService {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
             LOGGER.info(String.format("The auction with id=%d is started", auction.getId()));
-            try {
-                TimeUnit.MINUTES.sleep(2);
-                archiveAuction(auction);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitTwoMinutes();
+            archiveAuction(auction);
             LOGGER.info(String.format("The auction with id=%d is finished", auction.getId()));
         });
     }
 
-    private void archiveAuction(Auction auction){
+    private void waitTwoMinutes() {
+        try {
+            TimeUnit.MINUTES.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void archiveAuction(Auction auction) {
         Auction finishedAuction = auctionRepository.getOne(auction.getId());
         finishedAuction.setActive(false);
         auctionRepository.save(finishedAuction);
