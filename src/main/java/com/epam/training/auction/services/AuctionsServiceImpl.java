@@ -18,47 +18,47 @@ import static java.lang.String.format;
 
 @Service(value = "auctionsServiceImpl")
 public final class AuctionsServiceImpl implements AuctionsService {
-  private static final Logger LOGGER =
-      Logger.getLogger(AuctionsServiceImpl.class);
-  private static final String AUCTION_NOT_FOUND_MESSAGE =
-      "Auction with id %d was not found";
+    private static final Logger LOGGER =
+            Logger.getLogger(AuctionsServiceImpl.class);
+    private static final String AUCTION_NOT_FOUND_MESSAGE =
+            "Auction with id %d was not found";
 
-  @Autowired
-  private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-  private AuctionRepository auctionRepository;
+    private AuctionRepository auctionRepository;
 
-  @Autowired
-  public AuctionsServiceImpl(AuctionRepository auctionRepository) {
-    this.auctionRepository = auctionRepository;
-  }
-
-  public List<AuctionTransferObject> getActiveAuctions() {
-    List<Auction> auctions = auctionRepository.findByActiveTrue();
-    return AuctionMapper.map(auctions);
-  }
-
-  public List<AuctionTransferObject> getArchivedAuctions() {
-    List<Auction> auctions = auctionRepository.findByActiveFalse();
-    return AuctionMapper.map(auctions);
-  }
-
-  public Long addAuction(AuctionTransferObject auctionTransferObject) {
-    User seller = userRepository.findByUserName(auctionTransferObject.getSeller().getUsername());
-    Auction auction = new Auction(auctionTransferObject.getTitle(),
-        auctionTransferObject.getDescription(), seller);
-    auction.setActive(true);
-    auction = auctionRepository.save(auction);
-    return auction.getId();
-  }
-
-  public AuctionTransferObject getAuctionById(long id) {
-    Auction auction = auctionRepository.findOne(id);
-
-    if (auction == null) {
-      throw new ItemNotFoundException(format(AUCTION_NOT_FOUND_MESSAGE, id));
+    @Autowired
+    public AuctionsServiceImpl(AuctionRepository auctionRepository) {
+        this.auctionRepository = auctionRepository;
     }
 
-    return AuctionMapper.map(auction);
-  }
+    public List<AuctionTransferObject> getActiveAuctions() {
+        List<Auction> auctions = auctionRepository.findByActiveTrue();
+        return AuctionMapper.map(auctions);
+    }
+
+    public List<AuctionTransferObject> getArchivedAuctions() {
+        List<Auction> auctions = auctionRepository.findByActiveFalse();
+        return AuctionMapper.map(auctions);
+    }
+
+    public Long addAuction(AuctionTransferObject auctionTransferObject) {
+        User seller = userRepository.findByUserName(auctionTransferObject.getSeller().getUsername());
+        Auction auction = new Auction(auctionTransferObject.getTitle(),
+                auctionTransferObject.getDescription(), seller);
+        auction.setActive(true);
+        auction = auctionRepository.save(auction);
+        return auction.getId();
+    }
+
+    public AuctionTransferObject getAuctionById(long id) {
+        Auction auction = auctionRepository.findOne(id);
+
+        if (auction == null) {
+            throw new ItemNotFoundException(format(AUCTION_NOT_FOUND_MESSAGE, id));
+        }
+
+        return AuctionMapper.map(auction);
+    }
 }
