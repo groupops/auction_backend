@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 
@@ -46,7 +49,28 @@ public final class AuctionsServiceImpl implements AuctionsService {
         Auction auction = new Auction(auctionTransferObject.getTitle(), auctionTransferObject.getDescription(), seller);
         auction.setActive(true);
         auction = auctionRepository.save(auction);
+        startAuctionTimer(auction);
         return auction.getId();
+    }
+
+    private void startAuctionTimer(Auction auction) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
+            LOGGER.info("The auction is started");
+            try {
+                TimeUnit.MINUTES.sleep(2);
+                setAuctionAsArchived(auction);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            LOGGER.info("The auction is finished");
+        });
+    }
+
+    private void setAuctionAsArchived(Auction auction){
+        Auction finishedAuction = auctionRepository.getOne(auction.getId());
+        finishedAuction.setActive(false);
+        auctionRepository.save(finishedAuction);
     }
 
     public AuctionTransferObject getAuctionById(long id) {
