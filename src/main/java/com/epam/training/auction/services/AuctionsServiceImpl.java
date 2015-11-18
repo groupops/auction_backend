@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.lang.String.format;
 
@@ -41,6 +40,7 @@ public final class AuctionsServiceImpl implements AuctionsService {
     public Long addAuction(AuctionTransferObject auctionTransferObject) {
         User seller = new User(auctionTransferObject.getSeller().getUsername(), auctionTransferObject.getSeller().getPassword());
         Auction auction = new Auction(auctionTransferObject.getTitle(), auctionTransferObject.getDescription(), seller);
+        auction.setActive(true);
         auction = auctionRepository.save(auction);
         return auction.getId();
     }
