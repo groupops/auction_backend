@@ -14,6 +14,7 @@ public class AuctionMapper {
         return AuctionTransferObject.getBuilder(auction.getTitle(), UserMapper.map(user))
                 .setId(auction.getId())
                 .setDescription(auction.getDescription())
+                .setIsActive(auction.getActive())
                 .build();
     }
 

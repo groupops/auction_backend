@@ -56,14 +56,14 @@ public final class AuctionsServiceImpl implements AuctionsService {
     private void startAuctionTimer(Auction auction) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
-            LOGGER.info("The auction is started");
+            LOGGER.info(String.format("The auction with id=%d is started", auction.getId()));
             try {
                 TimeUnit.MINUTES.sleep(2);
                 archiveAuction(auction);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            LOGGER.info("The auction is finished");
+            LOGGER.info(String.format("The auction with id=%d is finished", auction.getId()));
         });
     }
 
