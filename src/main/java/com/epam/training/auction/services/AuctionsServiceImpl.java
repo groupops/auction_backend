@@ -34,13 +34,8 @@ public final class AuctionsServiceImpl implements AuctionsService {
         this.auctionRepository = auctionRepository;
     }
 
-    public List<AuctionTransferObject> getActiveAuctions() {
-        List<Auction> auctions = auctionRepository.findByActiveTrue();
-        return AuctionMapper.map(auctions);
-    }
-
-    public List<AuctionTransferObject> getArchivedAuctions() {
-        List<Auction> auctions = auctionRepository.findByActiveFalse();
+    public List<AuctionTransferObject> getAuctionsWithActive(boolean isActive) {
+        List<Auction> auctions = isActive ? auctionRepository.findByActiveTrue() : auctionRepository.findByActiveFalse();
         return AuctionMapper.map(auctions);
     }
 
