@@ -30,7 +30,7 @@ public class AuctionsServiceImplTestIT extends CommonIntegrationTestSuit {
 
     @Before
     public void setUp() {
-        auctionsService = new AuctionsServiceImpl(auctionRepository);
+        auctionsService = new AuctionsServiceImpl(userRepository, auctionRepository);
     }
 
     @Test
