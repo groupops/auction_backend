@@ -30,7 +30,7 @@ public class CamelConfigurations {
                 from("activemq:queue:auctions").choice()
                         .when(body().isInstanceOf(AuctionTransferObject.class)).bean(auctionsService, "addAuction")
                         .when(body().isInstanceOf(Long.class)).bean(auctionsService, "getAuctionById")
-                        .when(method(auctionsService, "getAuctionsWithActive")).bean(auctionsService, "getAuctionsWithActive")
+                        .when(body().isInstanceOf(Boolean.class)).bean(auctionsService, "getAuctionsWithActive")
                         .end();
                 from("activemq:queue:bids").bean(biddingService);
             }
