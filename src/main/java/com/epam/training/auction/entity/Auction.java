@@ -2,7 +2,6 @@ package com.epam.training.auction.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -43,10 +42,11 @@ public final class Auction implements Serializable {
     public Auction() {
     }
 
-    public Auction(String title, String description, User sellerUser) {
+    public Auction(String title, String description, User sellerUser, Date createdAt) {
         this.title = title;
         this.description = description;
         this.sellerUser = sellerUser;
+        this.createdAt = new Date();
     }
 
     public Long getId() {
