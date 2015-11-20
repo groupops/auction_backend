@@ -67,7 +67,7 @@ public final class AuctionsServiceImpl implements AuctionsService {
         try {
             TimeUnit.MINUTES.sleep(2);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.error("The auction is unexpectedly closed", e);
         }
     }
 
