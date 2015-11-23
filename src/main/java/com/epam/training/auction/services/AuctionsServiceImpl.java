@@ -45,7 +45,7 @@ public final class AuctionsServiceImpl implements AuctionsService {
         User seller = userRepository.findByUserName(auctionTransferObject.getSeller().getUsername());
         Auction auction = new Auction(auctionTransferObject.getTitle(), auctionTransferObject.getDescription(), seller, new Date());
         auction.setActive(true);
-        auction = auctionRepository.save(auction);
+        auction = auctionRepository.saveAndFlush(auction);
         startAuctionTimer(auction);
         return auction.getId();
     }

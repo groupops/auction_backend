@@ -1,5 +1,7 @@
 package com.epam.training.auction.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -33,6 +35,7 @@ public final class Auction implements Serializable {
 
     @Column(name = "CREATED_AT")
     @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     private Date createdAt;
 
     @Column(name = "UPDATED_AT")
