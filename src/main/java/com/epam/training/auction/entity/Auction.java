@@ -46,7 +46,7 @@ public final class Auction implements Serializable {
         this.title = title;
         this.description = description;
         this.sellerUser = sellerUser;
-        this.createdAt = new Date();
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
