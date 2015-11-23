@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -36,12 +38,12 @@ public final class AuctionsServiceImpl implements AuctionsService {
 
     public List<AuctionTransferObject> getAuctionsWithActive(boolean isActive) {
         List<Auction> auctions = isActive ? auctionRepository.findByActiveTrue() : auctionRepository.findByActiveFalse();
-        return AuctionMapper.map(auctions);
+        return auctions.isEmpty() ? Collections.emptyList() : AuctionMapper.map(auctions);
     }
 
     public Long addAuction(AuctionTransferObject auctionTransferObject) {
         User seller = userRepository.findByUserName(auctionTransferObject.getSeller().getUsername());
-        Auction auction = new Auction(auctionTransferObject.getTitle(), auctionTransferObject.getDescription(), seller);
+        Auction auction = new Auction(auctionTransferObject.getTitle(), auctionTransferObject.getDescription(), seller, new Date());
         auction.setActive(true);
         auction = auctionRepository.save(auction);
         startAuctionTimer(auction);
