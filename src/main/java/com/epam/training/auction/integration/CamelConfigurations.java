@@ -1,6 +1,5 @@
 package com.epam.training.auction.integration;
 
-import com.epam.training.auction.common.AuctionTransferObject;
 import com.epam.training.auction.common.AuctionsService;
 import com.epam.training.auction.common.BiddingService;
 import com.epam.training.auction.common.UsersService;
@@ -25,13 +24,8 @@ public class CamelConfigurations {
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-
                 from("activemq:queue:users").bean(usersService);
-                from("activemq:queue:auctions").choice()
-                        .when(body().isInstanceOf(AuctionTransferObject.class)).bean(auctionsService, "addAuction")
-                        .when(body().isInstanceOf(Long.class)).bean(auctionsService, "getAuctionById")
-                        .when(body().isInstanceOf(Boolean.class)).bean(auctionsService, "getAuctionsWithActive")
-                        .end();
+                from("activemq:queue:auctions").bean(auctionsService);
                 from("activemq:queue:bids").bean(biddingService);
             }
         };
