@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
@@ -29,6 +30,8 @@ public final class AuctionsServiceImpl implements AuctionsService {
     private final UserRepository userRepository;
 
     private final AuctionRepository auctionRepository;
+
+    private static int secondsToWait = 2 * 60;
 
     @Autowired
     public AuctionsServiceImpl(UserRepository userRepository, AuctionRepository auctionRepository) {
@@ -61,11 +64,15 @@ public final class AuctionsServiceImpl implements AuctionsService {
     }
 
     private void waitTwoMinutes() {
-        try {
-            TimeUnit.MINUTES.sleep(2);
-        } catch (InterruptedException e) {
-            LOGGER.error("The auction is unexpectedly closed", e);
-        }
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        Runnable task = () -> {
+            secondsToWait--;
+            System.out.println(secondsToWait);
+            if (secondsToWait == 0) {
+                executor.shutdown();
+            }
+        };
+        executor.scheduleAtFixedRate(task, 1, 1, TimeUnit.SECONDS);
     }
 
     private void archiveAuction(Auction auction) {

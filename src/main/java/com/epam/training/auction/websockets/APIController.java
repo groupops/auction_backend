@@ -30,7 +30,7 @@ public class APIController {
      *
      * @param message the message to send, encapsulated in a wrapper
      */
-    @RequestMapping(value = "/send", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/auctions/bid", method = RequestMethod.POST, consumes = "application/json")
     public void sendMessage(@RequestBody UserBidTransferObject message, Principal currentUser) {
         // send any message sent by clients to a queue called queue:bids
         camelContext.createProducerTemplate().sendBody("activemq:queue:bids", message);
@@ -43,7 +43,6 @@ public class APIController {
      */
     @RequestMapping(value = "/users", method = RequestMethod.GET, produces = "application/json")
     public Set<String> getUsers() {
-        // get the list of users from Spring Security's session registry
         return sessionRegistry.getAllPrincipals().stream().map(u -> ((User) u).getUsername()).collect(Collectors.toSet());
     }
 }
